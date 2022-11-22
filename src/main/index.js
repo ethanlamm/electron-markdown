@@ -38,6 +38,8 @@ function createWindow() {
   } else {
     mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'))
   }
+
+  mainWindow.webContents.openDevTools({ mode: 'right' })
 }
 
 // This method will be called when Electron has finished
