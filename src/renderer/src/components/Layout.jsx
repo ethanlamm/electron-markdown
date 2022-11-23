@@ -5,11 +5,24 @@ import { IconMarkdown } from '@tabler/icons'
 import NavbarContent from './NavbarContent'
 import MainContent from './MainContent'
 function Layout() {
+    const onInputHandler = (e) => {
+        console.log('input',e.target.value);
+    }
+    const onSelectFile = (item) => {
+        console.log('selectFile',item);
+    }
+    const selectTab = (id) => {
+        console.log('selectTab',id);
+    }
+    const onMenuSelect = (data) => {
+        console.log(data);
+    }
     return (
         <AppShell
+            zIndex={7}
             padding="md"
-            navbar={<Navbar width={{ base: 225 }} height={'100%'} p="xs">
-                {<NavbarContent />}
+            navbar={<Navbar width={{ base: 210 }} height={'100%'} p="xs" >
+                {<NavbarContent onInputHandler={onInputHandler} onSelectFile={onSelectFile} onMenuSelect={onMenuSelect} />}
             </Navbar>}
             header={<Header height={{ base: 50 }} p="xs">
                 {<Flex direction={'row'} align={'center'} gap='xs'>
@@ -21,7 +34,7 @@ function Layout() {
                 main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
             })}
         >
-            {<MainContent />}
+            {<MainContent selectTab={selectTab}  />}
         </AppShell>
     )
 }
