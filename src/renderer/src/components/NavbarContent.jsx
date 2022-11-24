@@ -29,7 +29,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 function NavbarContent() {
     const { classes } = useStyles()
-    const { fileList, deleteArticle, editArticle } = rootStore
+    const { fileList, deleteArticle, editArticle, addTabList } = rootStore
     const [keyword, setKeyword] = useState('')
     const [navShowList, setNavShowList] = useState([])
     const inputRef = useRef(null)
@@ -89,7 +89,7 @@ function NavbarContent() {
 
     // select file
     const onSelectFile = ({ id, title }) => {
-        console.log({ id, title })
+        addTabList({ id, title })
     }
 
 
