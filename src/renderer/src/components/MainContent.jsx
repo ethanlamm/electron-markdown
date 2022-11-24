@@ -45,10 +45,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 
 
-function MainContent({ selectTab }) {
+function MainContent() {
     const { classes } = useStyles();
     const [unSaved, setUnsaved] = useState(false)
-    const [selectedId, setSelectedId] = useState('')
 
     return (
         <div style={{ height: '100%', width: '100%' }}>
@@ -59,7 +58,7 @@ function MainContent({ selectTab }) {
                     keepMounted={false}
                     activateTabWithKeyboard={false}
                     defaultValue={fileList[0].id}
-                    onTabChange={selectTab}
+                    onTabChange={() => { }}
                 >
                     <Tabs.List className={classes.tablist}>
                         {fileList.map(item => (
@@ -90,8 +89,8 @@ function MainContent({ selectTab }) {
                     </Tabs.List>
                 </Tabs>
                 {/* RichTextEditor */}
-                <Box sx={{flexGrow:1}}>
-                    <RichTextEditorCom selectedId={selectedId} />
+                <Box sx={{ flexGrow: 1 }}>
+                    <RichTextEditorCom />
                 </Box>
             </Stack>
         </div>
