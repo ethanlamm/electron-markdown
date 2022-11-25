@@ -21,7 +21,7 @@ const NotificationCom = ({ type, text }) => {
     }
 
     return (
-        <Box sx={{ position: 'fixed', zIndex: 99, top: 0, left: '50%', transform: 'translateX(-50%)' }}>
+        <Box sx={{ position: 'fixed', zIndex: 999, top: 0, left: '50%', transform: 'translateX(-50%)' }}>
             <Notification icon={icons[type]} title={text} color={colors[type]}></Notification>
         </Box>
     )

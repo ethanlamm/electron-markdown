@@ -48,9 +48,8 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 
 function MainContent() {
-    const { tabList, idStatus, updateIdStatus, removeTab } = rootStore
+    const { tabList, idStatus, unsavedList, updateIdStatus, removeTab } = rootStore
     const { classes } = useStyles();
-    const [unSaved, setUnsaved] = useState(false)
     const [tabActiveId, setTabActiveId] = useState('')
 
     // tab select
@@ -87,15 +86,16 @@ function MainContent() {
                                     key={item.id}
                                     className={classes.tab}
                                     value={item.id}
-                                    icon={unSaved && (
-                                        <Badge
-                                            sx={{ width: 14, height: 14, pointerEvents: 'none' }}
-                                            color='red.3'
-                                            variant="filled"
-                                            size="xs"
-                                            p={0}
-                                        ></Badge>
-                                    )}
+                                    icon={
+                                        (unsavedList.includes(item.id)) && (
+                                            <Badge
+                                                sx={{ width: 14, height: 14, pointerEvents: 'none' }}
+                                                color='red.3'
+                                                variant="filled"
+                                                size="xs"
+                                                p={0}
+                                            ></Badge>
+                                        )}
                                     rightSection={
                                         <Center className={classes.close}
                                             onClick={(e) => {

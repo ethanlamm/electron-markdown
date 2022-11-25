@@ -1,20 +1,48 @@
-import React from 'react'
-import SimpleMDEReact from "react-simplemde-editor";
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import { SimpleMdeReact } from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 
+// Mbox
+import rootStore from '../store'
+import { observer } from 'mobx-react-lite'
+
+
 function RichTextEditorCom() {
-    const onChangeHandler = (value) => {
-        console.log(value);
-    }
+    const { tabList, idStatus, setUnsaved, updateTabList } = rootStore
+    const [value, setValue] = useState('');
+
+    useEffect(() => {
+        if (idStatus.activeId) {
+            const findItem = tabList.find(item => item.id === idStatus.activeId)
+            setValue(findItem.content)
+        }
+    }, [idStatus.activeId, tabList])
+
+
+    // editing
+    const onChange = useCallback((value) => {
+        setUnsaved(idStatus.activeId)
+        updateTabList(idStatus.activeId, value)
+    }, []);
+
+
+    // 文档：if you change 'options' on each value change you will lose focus, So, put 'options' as a const outside of the component, or if 'options' shall be partially or fully set by props make sure to useMemo in case of functional/hooks components
+    const options = useMemo(() => {
+        return {
+            autofocus: true,
+            spellChecker: false,
+            minHeight: '385px'
+        }
+    }, []);
+
     return (
-        <SimpleMDEReact
-            value={'1'}
-            onChange={onChangeHandler}
-            options={{
-                minHeight: '385px'
-            }}
+        <SimpleMdeReact
+            key={idStatus.activeId}
+            value={value}
+            onChange={onChange}
+            options={options}
         />
     )
 }
 
-export default RichTextEditorCom
+export default observer(RichTextEditorCom)

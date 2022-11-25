@@ -1,4 +1,4 @@
-import { computed, makeAutoObservable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 
 class RootStore {
 
@@ -69,7 +69,8 @@ class RootStore {
     lastActiveId: ''
   }
   idStatusArry = []
-  // 未保存的文档
+  // 未保存的文档列表
+  unsavedList = []
 
   constructor() {
     makeAutoObservable(this)
@@ -80,10 +81,16 @@ class RootStore {
     const findIndex = this.fileList.findIndex(item => item.id === id)
     if (findIndex !== -1) {
       this.fileList.splice(findIndex, 1)
+      this.removeTab(id)
     }
   }
 
-  // 编辑文档
+  // 添加新文档
+  addArticle = (file) => {
+    this.fileList.unshift(file)
+  }
+
+  // 编辑文档标题
   editArticle = ({ id, title }) => {
     const findIndex = this.fileList.findIndex(item => item.id === id)
     if (findIndex !== -1) {
@@ -106,12 +113,20 @@ class RootStore {
   }
 
   // 添加tabList
-  addTabList = ({ id, title }) => {
-    const findIndex = this.tabList.findIndex(item => item.id === id)
+  addTabList = (file) => {
+    const findIndex = this.tabList.findIndex(item => item.id === file.id)
     if (findIndex == -1) {
-      this.tabList.push({ id, title })
+      this.tabList.push(file)
     }
-    this.updateIdStatus(id)
+    this.updateIdStatus(file.id)
+  }
+
+  // 修改openList内容
+  updateTabList = (id, content) => {
+    const findIndex = this.tabList.findIndex(item => item.id === id)
+    if (findIndex !== -1) {
+      this.tabList[findIndex].content = content
+    }
   }
 
   // 移除tabList
@@ -175,6 +190,13 @@ class RootStore {
       }
       this.tabList.splice(findIndex, 1)
     }
+  }
+
+  // 修改状态(未保存)
+  setUnsaved = (id) => {
+    const isUnsaved = this.unsavedList.includes(id)
+    if (isUnsaved) return
+    this.unsavedList.push(id)
   }
 }
 

@@ -28,7 +28,8 @@
     "mobx": "^6.7.0",
     "mobx-react-lite": "^3.4.0",
     "normalize.css": "^8.0.1",
-    "react-simplemde-editor": "^5.2.0"
+    "react-simplemde-editor": "^5.2.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@electron/notarize": "^1.2.3",
