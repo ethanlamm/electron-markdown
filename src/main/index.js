@@ -41,7 +41,7 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'))
   }
 
-  mainWindow.webContents.openDevTools({ mode: 'left' })
+  mainWindow.webContents.openDevTools({ mode: 'bottom' })
 }
 
 // This method will be called when Electron has finished

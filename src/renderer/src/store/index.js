@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 // uuid
 import { v4 as uuidv4 } from 'uuid';
 
@@ -242,6 +242,26 @@ class RootStore {
     this.addArticle(newFile)
   }
 
+  // 保存时修改文件内容
+  writeFile = async (id) => {
+    const { filePath, content } = this.tabList.find(item => item.id === id)
+    const result = await electron.ipcRenderer.invoke('writeFile', { filePath, content })
+    if (result === 'success') {
+      // 去除unsaved状态
+      const findIndex = this.unsavedList.findIndex(item => item.id === id)
+      runInAction(() => {
+        this.unsavedList.splice(findIndex, 1)
+      })
+      // 更新fileList
+      const fileIndex = this.fileList.findIndex(item => item.id === id)
+      runInAction(() => {
+        this.fileList[fileIndex].content = content
+        this.fileList[fileIndex].latest = new Date().toLocaleString('zh-CN')
+      })
+      // 本地存储
+      this.updateFileList()
+    }
+  }
 }
 
 const rootStore = new RootStore()

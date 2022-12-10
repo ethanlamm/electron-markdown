@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite'
 
 
 function RichTextEditorCom() {
-    const { editingFile, idStatus, setUnsaved, updateTabList } = rootStore
+    const { editingFile, idStatus, setUnsaved, updateTabList, writeFile } = rootStore
     const [value, setValue] = useState('');
 
     useEffect(() => {
@@ -34,12 +34,22 @@ function RichTextEditorCom() {
         }
     }, []);
 
+    // ctrl-s:修改文件
+    const extraKeys = useMemo(() => {
+        return {
+            'Ctrl-S': function () {
+                writeFile(idStatus.activeId)
+            }
+        };
+    }, [value]);
+
     return (
         <SimpleMdeReact
             key={idStatus.activeId}
             value={value}
             onChange={onChange}
             options={options}
+            extraKeys={extraKeys}
         />
     )
 }
