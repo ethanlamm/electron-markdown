@@ -97,6 +97,8 @@ class RootStore {
     if (findIndex !== -1) {
       this.fileList.splice(findIndex, 1)
       this.removeTab(id)
+      // 更新fileList
+      this.updateFileList()
     }
   }
 
