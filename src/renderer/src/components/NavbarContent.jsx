@@ -32,7 +32,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 function NavbarContent() {
     const { classes } = useStyles()
-    const { fileList, deleteArticle, editArticle, addTabList, addArticle } = rootStore
+    const { fileList, deleteArticle, editArticle, addTabList, addArticle, uploadFile } = rootStore
     // Search
     const [keyword, setKeyword] = useState('')
     const [navShowList, setNavShowList] = useState([])
@@ -164,6 +164,13 @@ function NavbarContent() {
     }
     // --------------------------
 
+    // uploadFile
+    const uploadHandler = async () => {
+        const data = await electron.ipcRenderer.invoke('uploadFile')
+        if (data) {
+            uploadFile(data);
+        }
+    }
 
     return (
         <div style={{ height: '100%' }}>
@@ -239,7 +246,7 @@ function NavbarContent() {
                 >NewFile</Button>
                 <Button compact fullWidth variant='outline'
                     leftIcon={<IconUpload size={18} />}
-                    onClick={() => { }}
+                    onClick={uploadHandler}
                 >Upload</Button>
             </Flex>
             {/* Modal */}

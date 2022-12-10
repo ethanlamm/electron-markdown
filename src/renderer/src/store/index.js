@@ -1,66 +1,77 @@
 import { makeAutoObservable } from 'mobx'
+// uuid
+import { v4 as uuidv4 } from 'uuid';
+
+// 获取文件名
+const getFileName = (filePath) => {
+  if (!filePath) return
+  const start = filePath.lastIndexOf('\\')
+  const end = filePath.lastIndexOf('.')
+  return filePath.substring(start + 1, end)
+}
 
 class RootStore {
 
   // 所有文档
-  fileList = [
-    {
-      id: '1',
-      title: 'first article',
-      content: 'first article',
-      unsaved: false,
-      latest: new Date().toLocaleString('zh-CN'),
-    },
-    {
-      id: '2',
-      title: 'second article',
-      content: 'second article',
-      unsaved: false,
-      latest: new Date().toLocaleString('zh-CN'),
-    },
-    {
-      id: '3',
-      title: 'third article',
-      content: 'third article',
-      unsaved: false,
-      latest: new Date().toLocaleString('zh-CN'),
-    },
-    {
-      id: '4',
-      title: 'fourth article',
-      content: 'fourth article',
-      unsaved: false,
-      latest: new Date().toLocaleString('zh-CN'),
-    },
-    {
-      id: '5',
-      title: 'fifth article',
-      content: 'fifth article',
-      unsaved: false,
-      latest: new Date().toLocaleString('zh-CN'),
-    },
-    {
-      id: '6',
-      title: 'sixth article',
-      content: 'sixth article',
-      unsaved: false,
-      latest: new Date().toLocaleString('zh-CN'),
-    },
-    {
-      id: '7',
-      title: 'seventh article',
-      content: 'seventh article',
-      unsaved: false,
-      latest: new Date().toLocaleString('zh-CN'),
-    },
-    {
-      id: '8',
-      title: 'eigth article',
-      content: 'eigth article',
-      unsaved: false,
-      latest: new Date().toLocaleString('zh-CN'),
-    }
-  ]
+  fileList = JSON.parse(localStorage.getItem('fileList') || '[]')
+  // fileList = [
+  //   {
+  //     id: '1',
+  //     title: 'first article',
+  //     content: 'first article',
+  //     unsaved: false,
+  //     latest: new Date().toLocaleString('zh-CN'),
+  //   },
+  //   {
+  //     id: '2',
+  //     title: 'second article',
+  //     content: 'second article',
+  //     unsaved: false,
+  //     latest: new Date().toLocaleString('zh-CN'),
+  //   },
+  //   {
+  //     id: '3',
+  //     title: 'third article',
+  //     content: 'third article',
+  //     unsaved: false,
+  //     latest: new Date().toLocaleString('zh-CN'),
+  //   },
+  //   {
+  //     id: '4',
+  //     title: 'fourth article',
+  //     content: 'fourth article',
+  //     unsaved: false,
+  //     latest: new Date().toLocaleString('zh-CN'),
+  //   },
+  //   {
+  //     id: '5',
+  //     title: 'fifth article',
+  //     content: 'fifth article',
+  //     unsaved: false,
+  //     latest: new Date().toLocaleString('zh-CN'),
+  //   },
+  //   {
+  //     id: '6',
+  //     title: 'sixth article',
+  //     content: 'sixth article',
+  //     unsaved: false,
+  //     latest: new Date().toLocaleString('zh-CN'),
+  //   },
+  //   {
+  //     id: '7',
+  //     title: 'seventh article',
+  //     content: 'seventh article',
+  //     unsaved: false,
+  //     latest: new Date().toLocaleString('zh-CN'),
+  //   },
+  //   {
+  //     id: '8',
+  //     title: 'eigth article',
+  //     content: 'eigth article',
+  //     unsaved: false,
+  //     latest: new Date().toLocaleString('zh-CN'),
+  //   }
+  // ]
   // 要展示的tab文档列表
   tabList = []
   // 正在编辑的文件
@@ -91,7 +102,15 @@ class RootStore {
 
   // 添加新文档
   addArticle = (file) => {
+    // 相同文档不能重复上传
+    const findIndex = this.fileList.findIndex(item => item.filePath === file.filePath)
+    if (findIndex !== -1) return
+    // 添加至fileLis
     this.fileList.unshift(file)
+    // 同时展示至tabList
+    this.addTabList(file)
+    // 更新fileList
+    this.updateFileList()
   }
 
   // 编辑文档标题
@@ -203,6 +222,26 @@ class RootStore {
     if (isUnsaved) return
     this.unsavedList.push(id)
   }
+
+  // 本地存储fileList
+  updateFileList = () => {
+    localStorage.setItem('fileList', JSON.stringify(this.fileList))
+  }
+
+  // 上传文件
+  uploadFile = ({ filePath, content }) => {
+    const title = getFileName(filePath)
+    const newFile = {
+      id: uuidv4(),
+      title,
+      content,
+      filePath,
+      unsaved: false,
+      latest: new Date().toLocaleString('zh-CN'),
+    }
+    this.addArticle(newFile)
+  }
+
 }
 
 const rootStore = new RootStore()
