@@ -2,6 +2,8 @@ import { app, shell, BrowserWindow } from 'electron'
 import * as path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
+import './events'
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -11,8 +13,8 @@ function createWindow() {
     autoHideMenuBar: true,
     ...(process.platform === 'linux'
       ? {
-          icon: path.join(__dirname, '../../build/icon.png')
-        }
+        icon: path.join(__dirname, '../../build/icon.png')
+      }
       : {}),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
@@ -32,7 +34,7 @@ function createWindow() {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   // ELECTRON_RENDERER_URL 是 Vite 开发服务运行的本地 URL
-  
+
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
