@@ -63,6 +63,10 @@ class RootStore {
   ]
   // 要展示的tab文档列表
   tabList = []
+  // 正在编辑的文件
+  get editingFile() {
+    return this.tabList.find(item => item.id === this.idStatus.activeId)
+  }
   // 目前编辑的文档
   idStatus = {
     activeId: '',
@@ -116,12 +120,13 @@ class RootStore {
   addTabList = (file) => {
     const findIndex = this.tabList.findIndex(item => item.id === file.id)
     if (findIndex == -1) {
-      this.tabList.push(file)
+      // 需要深拷贝
+      this.tabList.push({ ...file })
     }
     this.updateIdStatus(file.id)
   }
 
-  // 修改openList内容
+  // 修改tabList内容
   updateTabList = (id, content) => {
     const findIndex = this.tabList.findIndex(item => item.id === id)
     if (findIndex !== -1) {

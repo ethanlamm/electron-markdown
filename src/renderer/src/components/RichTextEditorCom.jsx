@@ -8,15 +8,14 @@ import { observer } from 'mobx-react-lite'
 
 
 function RichTextEditorCom() {
-    const { tabList, idStatus, setUnsaved, updateTabList } = rootStore
+    const { editingFile, idStatus, setUnsaved, updateTabList } = rootStore
     const [value, setValue] = useState('');
 
     useEffect(() => {
         if (idStatus.activeId) {
-            const findItem = tabList.find(item => item.id === idStatus.activeId)
-            setValue(findItem.content)
+            setValue(editingFile.content)
         }
-    }, [idStatus.activeId, tabList])
+    }, [idStatus.activeId, editingFile.content])
 
 
     // editing
