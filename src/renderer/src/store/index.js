@@ -223,6 +223,14 @@ class RootStore {
     this.unsavedList.push(id)
   }
 
+  // 修改状态(已保存)
+  removeUnsaved = (id) => {
+    const findIndex = this.unsavedList.findIndex(item => item === id)
+    if (findIndex !== -1) {
+      this.unsavedList.splice(findIndex, 1)
+    }
+  }
+
   // 本地存储fileList
   updateFileList = () => {
     localStorage.setItem('fileList', JSON.stringify(this.fileList))
@@ -248,10 +256,7 @@ class RootStore {
     const result = await electron.ipcRenderer.invoke('writeFile', { filePath, content })
     if (result === 'success') {
       // 去除unsaved状态
-      const findIndex = this.unsavedList.findIndex(item => item.id === id)
-      runInAction(() => {
-        this.unsavedList.splice(findIndex, 1)
-      })
+      this.removeUnsaved(id)
       // 更新fileList
       const fileIndex = this.fileList.findIndex(item => item.id === id)
       runInAction(() => {

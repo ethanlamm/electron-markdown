@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Tabs, Badge, createStyles, Box, Center, Stack, Flex } from '@mantine/core';
+import { Tabs, Badge, createStyles, Box, Center, Stack, Flex, Modal, Button, Text } from '@mantine/core';
 import { IconSquareX, IconMarkdown } from '@tabler/icons'
 
 import RichTextEditorCom from './RichTextEditorCom';
@@ -48,9 +48,12 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 
 function MainContent() {
-    const { tabList, idStatus, unsavedList, updateIdStatus, removeTab } = rootStore
+    const { tabList, idStatus, unsavedList, updateIdStatus, removeTab, removeUnsaved, writeFile } = rootStore
     const { classes } = useStyles();
     const [tabActiveId, setTabActiveId] = useState('')
+    // Modal
+    const [opened, setOpened] = useState(false);
+    const [closeId, setClodeId] = useState('')
 
     // tab select
     useEffect(() => {
@@ -66,7 +69,39 @@ function MainContent() {
 
     // close tab
     const closeTab = (id) => {
-        removeTab(id)
+        setClodeId(id)
+        const isUnsaved = unsavedList.includes(id)
+        if (isUnsaved) {
+            // 修改了，询问是否保存
+            setOpened(true)
+        } else {
+            // 没有修改，直接关闭
+            removeTab(id)
+        }
+    }
+
+    // 不保存
+    const unsaveHandler = () => {
+        // 移除unsavedList
+        removeUnsaved(closeId)
+        // 移除tabList
+        removeTab(closeId)
+        // 关闭Moadl
+        setOpened(false)
+        // 重置closeId
+        setClodeId('')
+    }
+
+    // 保存
+    const saveHandler = () => {
+        // 修改
+        writeFile(closeId)
+        // 移除tabList
+        removeTab(closeId)
+        // 关闭Moadl
+        setOpened(false)
+        // 重置closeId
+        setClodeId('')
     }
     return (
         <div style={{ height: '100%', width: '100%' }}>
@@ -116,6 +151,24 @@ function MainContent() {
                 </Stack>)
                 : (<Flex sx={{ height: '100%', width: '100%' }} justify={'center'} align={'center'}><IconMarkdown size={80} /></Flex>)
             }
+            {opened && (
+                <Modal
+                    centered
+                    size="xs"
+                    withCloseButton={false}
+                    opened={opened}
+                    onClose={() => setOpened(false)}
+                    title="Do you want to save the changes you made to the file?"
+                >
+                    <Flex direction={'column'} gap='sm'>
+                        <Text sx={{ fontSize: '13px' }}>Your changes will be lost if you dont't save them</Text>
+                        <Flex direction={'row'} justify={'space-evenly'}>
+                            <Button variant='outline' onClick={unsaveHandler}>Don't Save</Button>
+                            <Button onClick={saveHandler}>Save</Button>
+                        </Flex>
+                    </Flex>
+                </Modal>
+            )}
         </div>
     )
 }

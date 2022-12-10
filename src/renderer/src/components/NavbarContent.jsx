@@ -250,37 +250,39 @@ function NavbarContent() {
                 >Upload</Button>
             </Flex>
             {/* Modal */}
-            <Modal
-                centered
-                size="xs"
-                withCloseButton={false}
-                opened={opened}
-                onClose={() => setOpened(false)}
-                title={ModalType === 'newFile' ?
-                    'Please enter a title for new file'
-                    : 'Confirm the deletion?'}
-            >
-                {(ModalType === 'newFile') ?
-                    (<Flex direction={'row'} justify={'space-between'} gap={'5px'}>
-                        <Input data-autofocus value={newFileTitle}
-                            onChange={e => setNewFileTitle(e.target.value)}
-                            onKeyUp={onNewFileEnter}
-                        />
-                        <Button onClick={onNewFileComfirm}>Confirm</Button>
-                    </Flex>)
-                    :
-                    (
-                        <Flex direction={'row'} justify={'space-evenly'}>
-                            <Button variant='outline' onClick={() => {
-                                setOpened(false)
-                                setModalType('')
-                                setDeleteId('')
-                            }}>Cancel</Button>
-                            <Button onClick={onDeleteConfirm}>Confirm</Button>
-                        </Flex>
-                    )
-                }
-            </Modal>
+            {opened && (
+                <Modal
+                    centered
+                    size="xs"
+                    withCloseButton={false}
+                    opened={opened}
+                    onClose={() => setOpened(false)}
+                    title={ModalType === 'newFile' ?
+                        'Please enter a title for new file'
+                        : 'Confirm the deletion?'}
+                >
+                    {(ModalType === 'newFile') ?
+                        (<Flex direction={'row'} justify={'space-between'} gap={'5px'}>
+                            <Input data-autofocus value={newFileTitle}
+                                onChange={e => setNewFileTitle(e.target.value)}
+                                onKeyUp={onNewFileEnter}
+                            />
+                            <Button onClick={onNewFileComfirm}>Confirm</Button>
+                        </Flex>)
+                        :
+                        (
+                            <Flex direction={'row'} justify={'space-evenly'}>
+                                <Button variant='outline' onClick={() => {
+                                    setOpened(false)
+                                    setModalType('')
+                                    setDeleteId('')
+                                }}>Cancel</Button>
+                                <Button onClick={onDeleteConfirm}>Confirm</Button>
+                            </Flex>
+                        )
+                    }
+                </Modal>
+            )}
         </div >
     )
 }
