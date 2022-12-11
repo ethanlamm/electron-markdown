@@ -21,6 +21,11 @@ const handleSetPath = async () => {
     return folderPath
 }
 
+const handleRenameFile = async (event, { oldPath, newPath, basePath, title }) => {
+    const result = await fileUtils.renameFile({ oldPath, newPath, basePath, title })
+    return result
+}
+
 app.whenReady().then(() => {
     // uploadFile
     ipcMain.handle('uploadFile', handleUploadFile)
@@ -33,4 +38,7 @@ app.whenReady().then(() => {
 
     // setPath
     ipcMain.handle('setPath', handleSetPath)
+
+    // renameFile
+    ipcMain.handle('renameFile', handleRenameFile)
 })

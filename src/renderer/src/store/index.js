@@ -1,4 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx'
+// message
+import message from '../hooks/message'
+
 // uuid
 import { v4 as uuidv4 } from 'uuid';
 
@@ -8,6 +11,13 @@ const getFileName = (filePath) => {
   const start = filePath.lastIndexOf('\\')
   const end = filePath.lastIndexOf('.')
   return filePath.substring(start + 1, end)
+}
+
+// 获取新路径
+const getNewPath = (filePath, title) => {
+  const cut = filePath.lastIndexOf('\\')
+  const basePath = filePath.substring(0, cut + 1)
+  return { basePath, newPath: `${basePath}${title}.md` }
 }
 
 class RootStore {
@@ -165,11 +175,23 @@ class RootStore {
   }
 
   // 编辑文档标题
-  editArticle = ({ id, title }) => {
+  editArticle = async ({ id, title }) => {
     const findIndex = this.fileList.findIndex(item => item.id === id)
     if (findIndex !== -1) {
-      this.fileList[findIndex].title = title
-      this.fileList[findIndex].latest = new Date().toLocaleString('zh-CN')
+      const oldPath = this.fileList[findIndex].filePath
+      const { basePath, newPath } = getNewPath(oldPath, title)
+      const result = await electron.ipcRenderer.invoke('renameFile', { oldPath, newPath, basePath, title })
+      if (result === 'success') {
+        runInAction(() => {
+          this.fileList[findIndex].title = title
+          this.fileList[findIndex].filePath = newPath
+          this.fileList[findIndex].latest = new Date().toLocaleString('zh-CN')
+        })
+        // 更新fileList
+        this.updateFileList()
+      } else if (result === 'sameName') {
+        return message('warn', 'A file with the same name exists', 4000)
+      }
     }
   }
 

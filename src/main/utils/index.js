@@ -29,7 +29,6 @@ export const fileUtils = {
     },
     /**
      * 写入文件内容
-     * 
      */
     writeFile: async (filePath, content = '') => {
         try {
@@ -49,4 +48,25 @@ export const fileUtils = {
             return filePaths[0]
         }
     },
+
+    /**
+     * 修改文件标题
+     */
+    renameFile: async ({ oldPath, newPath, basePath, title }) => {
+        // 查找文件夹下的所有文件
+        const fileList = await fs.readdir(basePath)
+        const isSameName = fileList.includes(`${title}.md`)
+        if (!isSameName) {
+            // 没有重名文件
+            try {
+                await fs.rename(oldPath, newPath)
+                return 'success'
+            } catch (error) {
+                return 'fail'
+            }
+        } else {
+            // 有重名文件
+            return 'sameName'
+        }
+    }
 }

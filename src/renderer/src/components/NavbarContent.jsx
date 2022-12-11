@@ -90,14 +90,14 @@ function NavbarContent() {
         setTitle(e.target.value);
     }
 
-    const onBlurInput = async (e) => {
+    const onBlurInput = () => {
         if (!title.trim()) {
             message('warn', 'Please enter a title')
             setTitle('')
             return inputRef.current.focus()
         }
         // 修改title
-        await editArticle({ id: editingId, title })
+        editArticle({ id: editingId, title })
         setEditingId('')
     }
     const onKeyUpInput = (e) => {
