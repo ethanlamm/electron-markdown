@@ -41,8 +41,10 @@ function NavbarContent() {
     // Modal
     const [opened, setOpened] = useState(false)
     const [ModalType, setModalType] = useState('')
-    const [newFileTitle, setNewFileTitle] = useState('')
     const [deleteId, setDeleteId] = useState('')
+    // newFile-Modal
+    const [newFileModal, setNewFileModal] = useState(false)
+    const [newFileTitle, setNewFileTitle] = useState('')
 
     // search
     const onInputHandler = (e) => {
@@ -135,10 +137,9 @@ function NavbarContent() {
         if (editingId !== '') return message('warn', 'Please finish the title change first')
         // open Modal
         setNewFileTitle('')
-        setModalType('newFile')
-        setOpened(true)
+        setNewFileModal(true)
     }
-
+    // input-enter
     const onNewFileEnter = (e) => {
         if (e.keyCode === 13) {
             if (!newFileTitle.trim()) {
@@ -148,6 +149,7 @@ function NavbarContent() {
             createNewFile()
         }
     }
+    // comfirm
     const onNewFileComfirm = () => {
         if (!newFileTitle.trim()) {
             message('warn', 'The title cannot be empty')
@@ -155,16 +157,14 @@ function NavbarContent() {
         }
         createNewFile()
     }
-
+    // createNewFileHandler
     const createNewFile = async () => {
         const result = await createFile(newFileTitle)
         if (result === 'sameName') {
             message('warn', 'A file with the same name exists', 4000)
             return setNewFileTitle('')
         }
-        setOpened(false)
-        setModalType('')
-
+        setNewFileModal(false)
     }
     // --------------------------
 
@@ -253,8 +253,35 @@ function NavbarContent() {
                     onClick={uploadHandler}
                 >Upload</Button>
             </Flex>
+            {/* newFileModal */}
+            {newFileModal && (
+                <Modal
+                    centered
+                    size="sm"
+                    withCloseButton={false}
+                    opened={newFileModal}
+                    onClose={() => setNewFileModal(false)}
+                >
+                    <Flex direction={'column'} justify={'space-between'} gap='md'>
+                        <Center>Create a New file</Center>
+                        <Input.Wrapper label="Title" required>
+                            <Input data-autofocus value={newFileTitle} size='xs'
+                                onChange={e => setNewFileTitle(e.target.value)}
+                                onKeyUp={onNewFileEnter}
+                                placeholder="Type a Title..." />
+                        </Input.Wrapper>
+                        <Input.Wrapper label="Path">
+                            <Flex direction={'row'} gap='xs'>
+                                <Input value={folderPath.newFilePath || folderPath.setPath || folderPath.appPath} size='xs' sx={{ flexGrow: 1 }} readOnly />
+                                <ActionIcon onClick={setNewFilePath}><IconFolder size={26} /></ActionIcon>
+                            </Flex>
+                        </Input.Wrapper>
+                        <Button onClick={onNewFileComfirm}>Create</Button>
+                    </Flex>
+                </Modal>
+            )}
             {/* Modal */}
-            {opened && (
+            {/* {opened && (
                 <Modal
                     centered
                     size="sm"
@@ -296,7 +323,7 @@ function NavbarContent() {
                         )
                     }
                 </Modal>
-            )}
+            )} */}
         </div >
     )
 }
