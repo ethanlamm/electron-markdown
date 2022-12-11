@@ -31,6 +31,11 @@ const handleRenameFile = async (event, { oldPath, newPath, basePath, title }) =>
     return result
 }
 
+const handleDeleteFile = async (event, filePath) => {
+    const result = await fileUtils.deleteFile(filePath)
+    return result
+}
+
 app.whenReady().then(() => {
     // uploadFile
     ipcMain.handle('uploadFile', handleUploadFile)
@@ -49,4 +54,7 @@ app.whenReady().then(() => {
 
     // renameFile
     ipcMain.handle('renameFile', handleRenameFile)
+
+    // deleteFile
+    ipcMain.handle('deleteFile', handleDeleteFile)
 })

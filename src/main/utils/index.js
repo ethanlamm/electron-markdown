@@ -104,5 +104,22 @@ export const fileUtils = {
             // 有重名文件
             return 'sameName'
         }
+    },
+
+    /**
+     * 删除本地文件
+     */
+    deleteFile: async (filePath) => {
+        // 文件是否存在
+        const isExist = existsSync(filePath)
+        if (isExist) {
+            try {
+                await fs.rm(filePath)
+                return 'success'
+            } catch (error) {
+                return 'fail'
+            }
+        }
     }
+
 }
