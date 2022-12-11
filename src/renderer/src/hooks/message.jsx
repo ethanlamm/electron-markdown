@@ -21,8 +21,8 @@ const NotificationCom = ({ type, text }) => {
     }
 
     return (
-        <Box sx={{ position: 'fixed', zIndex: 999, top: 0, left: '50%', transform: 'translateX(-50%)' }}>
-            <Notification icon={icons[type]} title={text} color={colors[type]}></Notification>
+        <Box sx={{ position: 'fixed', zIndex: 999, top: '20px', left: '50%', transform: 'translateX(-50%)' }}>
+            <Notification icon={icons[type]} title={text} color={colors[type]} disallowClose></Notification>
         </Box>
     )
 }
@@ -35,13 +35,14 @@ const root = ReactDOM.createRoot(domContainer)
  *  消息函数
  * @param {String} type 消息类型 warn 警告  error 错误  success 成功
  * @param {String} text 消息文字
+ * @param {number} time 消息提示时间 默认 3000
  */
-function message(type, text) {
+function message(type, text, time = 3000) {
     root.render(<NotificationCom type={type} text={text} />)
     clearTimeout(timer)
     timer = setTimeout(() => {
         root.render(null)
-    }, 3000)
+    }, time)
 }
 
 export default message

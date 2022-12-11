@@ -87,8 +87,38 @@ class RootStore {
   // 未保存的文档列表
   unsavedList = []
 
+  // 新建文件的默认路径
+  defaultPath = JSON.parse(localStorage.getItem('defaultPath') || '{}')
+
   constructor() {
     makeAutoObservable(this)
+  }
+
+  // 获取默认文件路径
+  getDefaultPath = async () => {
+    const path = await electron.ipcRenderer.invoke('getDefaultPath')
+    if (this.defaultPath.appPath === `${path}\\files`) return
+    runInAction(() => {
+      this.defaultPath.appPath = `${path}\\files`
+    })
+    localStorage.setItem('defaultPath', JSON.stringify(this.defaultPath))
+  }
+
+  // 设置默认文件路径
+  setDefaultPath = async () => {
+    const path = await electron.ipcRenderer.invoke('setDefaultPath')
+    runInAction(() => {
+      this.defaultPath.setPath = path
+    })
+    localStorage.setItem('defaultPath', JSON.stringify(this.defaultPath))
+  }
+
+  // 重置默认文件路径
+  resetDefaultPath = () => {
+    runInAction(() => {
+      delete this.defaultPath.setPath
+    })
+    localStorage.setItem('defaultPath', JSON.stringify(this.defaultPath))
   }
 
   // 删除文档

@@ -1,11 +1,16 @@
 import * as fs from 'fs/promises'
 import { dialog } from 'electron'
 
-const options = {
+const openFileOptions = {
     // 只允许打开文件
     properties: ['openFile'],
     // 只允许打开markdown文件
     filters: [{ name: 'markdown', extensions: ['md'] }]
+}
+
+const openFolderOptions = {
+    // 只允许打开文件夹
+    properties: ['openDirectory']
 }
 
 export const fileUtils = {
@@ -14,7 +19,7 @@ export const fileUtils = {
      * @returns 读取到的内容
      */
     readFile: async () => {
-        const { canceled, filePaths } = await dialog.showOpenDialog(options)
+        const { canceled, filePaths } = await dialog.showOpenDialog(openFileOptions)
         let filePath = ''
         if (!canceled) {
             filePath = filePaths[0]
@@ -35,4 +40,13 @@ export const fileUtils = {
         }
     },
 
+    /**
+     * 打开路径
+     */
+    setDefalutPath: async () => {
+        const { canceled, filePaths } = await dialog.showOpenDialog(openFolderOptions)
+        if (!canceled) {
+            return filePaths[0]
+        }
+    },
 }
