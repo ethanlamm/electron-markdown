@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Box, Input, ScrollArea, Stack, Flex, Text, Title, Center, Menu, Button, Modal, createStyles, ActionIcon } from '@mantine/core'
 import { IconSearch, IconBrandMedium, IconDotsVertical, IconPlus, IconUpload, IconFolder } from '@tabler/icons'
-// uuid
-import { v4 as uuidv4 } from 'uuid';
 
 // Mbox
 import rootStore from '../store'
@@ -32,7 +30,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 function NavbarContent() {
     const { classes } = useStyles()
-    const { fileList, folderPath, deleteArticle, editArticle, addTabList, addArticle, uploadFile, setNewFilePath } = rootStore
+    const { fileList, folderPath, deleteArticle, editArticle, addTabList, uploadFile, createFile, setNewFilePath } = rootStore
     // Search
     const [keyword, setKeyword] = useState('')
     const [navShowList, setNavShowList] = useState([])
@@ -150,15 +148,7 @@ function NavbarContent() {
     }
 
     const createNewFile = () => {
-        const newFile = {
-            id: uuidv4(),
-            title: newFileTitle,
-            content: '',
-            unsaved: false,
-            latest: new Date().toLocaleString('zh-CN')
-        }
-        addArticle(newFile)
-        addTabList(newFile)
+        createFile(newFileTitle)
         setOpened(false)
         setModalType('')
     }
@@ -267,7 +257,7 @@ function NavbarContent() {
                                 <Input data-autofocus value={newFileTitle} size='xs'
                                     onChange={e => setNewFileTitle(e.target.value)}
                                     onKeyUp={onNewFileEnter}
-                                    placeholder="Please enter a title for new file" />
+                                    placeholder="Type a title..." />
                             </Input.Wrapper>
                             <Input.Wrapper label="Path">
                                 <Flex direction={'row'} gap='xs'>
@@ -275,10 +265,6 @@ function NavbarContent() {
                                     <ActionIcon onClick={setNewFilePath}><IconFolder size={26} /></ActionIcon>
                                 </Flex>
                             </Input.Wrapper>
-                            {/* <Input data-autofocus value={newFileTitle}
-                                onChange={e => setNewFileTitle(e.target.value)}
-                                onKeyUp={onNewFileEnter}
-                            /> */}
                             <Button onClick={onNewFileComfirm}>Create</Button>
                         </Flex>)
                         :

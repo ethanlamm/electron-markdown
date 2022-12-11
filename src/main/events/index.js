@@ -25,7 +25,7 @@ app.whenReady().then(() => {
     // uploadFile
     ipcMain.handle('uploadFile', handleUploadFile)
 
-    // writeFile
+    // writeFile/createFile
     ipcMain.handle('writeFile', handleWriteFile)
 
     // getDefaultPath

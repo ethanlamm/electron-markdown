@@ -143,14 +143,23 @@ class RootStore {
   }
 
   // 添加新文档
-  addArticle = (file) => {
+  addArticle = ({ filePath, title, content }) => {
     // 相同文档不能重复上传
-    const findIndex = this.fileList.findIndex(item => item.filePath === file.filePath)
+    const findIndex = this.fileList.findIndex(item => item.filePath === filePath)
     if (findIndex !== -1) return
+    // 新文件
+    const newFile = {
+      id: uuidv4(),
+      title,
+      content,
+      filePath,
+      unsaved: false,
+      latest: new Date().toLocaleString('zh-CN'),
+    }
     // 添加至fileLis
-    this.fileList.unshift(file)
+    this.fileList.unshift(newFile)
     // 同时展示至tabList
-    this.addTabList(file)
+    this.addTabList(newFile)
     // 更新fileList
     this.updateFileList()
   }
@@ -281,15 +290,17 @@ class RootStore {
   // 上传文件
   uploadFile = ({ filePath, content }) => {
     const title = getFileName(filePath)
-    const newFile = {
-      id: uuidv4(),
-      title,
-      content,
-      filePath,
-      unsaved: false,
-      latest: new Date().toLocaleString('zh-CN'),
+    this.addArticle({ filePath, title, content })
+  }
+
+  // 新建文件
+  createFile = async (title) => {
+    const basePath = this.folderPath.newFilePath || this.folderPath.setPath || this.folderPath.appPath
+    const filePath = `${basePath}\\${title}.md`
+    const result = await electron.ipcRenderer.invoke('writeFile', { filePath, content: '' })
+    if (result === 'success') {
+      this.uploadFile({ filePath, content: '' })
     }
-    this.addArticle(newFile)
   }
 
   // 保存时修改文件内容
