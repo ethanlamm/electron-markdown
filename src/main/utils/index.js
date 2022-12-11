@@ -1,5 +1,8 @@
 import * as fs from 'fs/promises'
-import { dialog } from 'electron'
+import { existsSync } from 'fs';
+import { app, dialog } from 'electron'
+
+const defaultPath = app.getAppPath()
 
 const openFileOptions = {
     // 只允许打开文件
@@ -43,6 +46,16 @@ export const fileUtils = {
      * 新建文件
      */
     createFile: async ({ basePath, title }) => {
+        // 默认初始路径
+        const isDefaultPath = basePath.includes(defaultPath)
+        if (isDefaultPath) {
+            // 是否存在files目录
+            const isExist = existsSync(basePath)
+            if (!isExist) {
+                // 不存在，创建files目录
+                await fs.mkdir(basePath)
+            }
+        }
         // 查找文件夹下的所有文件
         const fileList = await fs.readdir(basePath)
         const isSameName = fileList.includes(`${title}.md`)
