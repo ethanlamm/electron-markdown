@@ -117,11 +117,15 @@ class RootStore {
   // 设置默认文件路径
   setDefaultPath = async () => {
     const path = await electron.ipcRenderer.invoke('setPath')
-    runInAction(() => {
-      this.folderPath.setPath = path
-    })
-    localStorage.setItem('folderPath', JSON.stringify(this.folderPath))
+    // 取消了，返回的path为undefined
+    if (path) {
+      runInAction(() => {
+        this.folderPath.setPath = path
+      })
+      localStorage.setItem('folderPath', JSON.stringify(this.folderPath))
+    }
   }
+
 
   // 新建文件路径
   setNewFilePath = async () => {
