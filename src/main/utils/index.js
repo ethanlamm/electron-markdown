@@ -30,12 +30,35 @@ export const fileUtils = {
     /**
      * 写入文件内容
      */
-    writeFile: async (filePath, content = '') => {
+    writeFile: async (filePath, content) => {
         try {
             await fs.writeFile(filePath, content, { encoding: 'utf8' })
             return 'success'
         } catch (error) {
             return 'fail'
+        }
+    },
+
+    /**
+     * 新建文件
+     */
+    createFile: async ({ basePath, title }) => {
+        // 查找文件夹下的所有文件
+        const fileList = await fs.readdir(basePath)
+        const isSameName = fileList.includes(`${title}.md`)
+        if (!isSameName) {
+            // 没有重名文件
+            const filePath = `${basePath}\\${title}.md`
+            const content = ''
+            try {
+                await fs.writeFile(filePath, content, { encoding: 'utf8' })
+                return 'success'
+            } catch (error) {
+                return 'fail'
+            }
+        } else {
+            // 有重名文件
+            return 'sameName'
         }
     },
 

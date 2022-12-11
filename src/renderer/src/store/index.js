@@ -178,8 +178,11 @@ class RootStore {
   editArticle = async ({ id, title }) => {
     const findIndex = this.fileList.findIndex(item => item.id === id)
     if (findIndex !== -1) {
-      const oldPath = this.fileList[findIndex].filePath
+      const { filePath: oldPath, title: oldTitle } = this.fileList[findIndex]
+      // 与原名重复则不修改
+      if (title === oldTitle) return
       const { basePath, newPath } = getNewPath(oldPath, title)
+
       const result = await electron.ipcRenderer.invoke('renameFile', { oldPath, newPath, basePath, title })
       if (result === 'success') {
         runInAction(() => {
@@ -189,9 +192,8 @@ class RootStore {
         })
         // 更新fileList
         this.updateFileList()
-      } else if (result === 'sameName') {
-        return message('warn', 'A file with the same name exists', 4000)
       }
+      return result
     }
   }
 
@@ -318,11 +320,12 @@ class RootStore {
   // 新建文件
   createFile = async (title) => {
     const basePath = this.folderPath.newFilePath || this.folderPath.setPath || this.folderPath.appPath
-    const filePath = `${basePath}\\${title}.md`
-    const result = await electron.ipcRenderer.invoke('writeFile', { filePath, content: '' })
+    const result = await electron.ipcRenderer.invoke('createFile', { basePath, title })
     if (result === 'success') {
+      const filePath = `${basePath}\\${title}.md`
       this.uploadFile({ filePath, content: '' })
     }
+    return result
   }
 
   // 保存时修改文件内容

@@ -85,31 +85,40 @@ function NavbarContent() {
             inputRef.current.focus()
         }
     }, [editingId])
-
+    // input: 受控组件
     const onEditInput = (e) => {
         setTitle(e.target.value);
     }
-
+    // input-blur
     const onBlurInput = () => {
         if (!title.trim()) {
-            message('warn', 'Please enter a title')
+            message('warn', 'The title cannot be empty')
             setTitle('')
             return inputRef.current.focus()
         }
         // 修改title
-        editArticle({ id: editingId, title })
-        setEditingId('')
+        editTitleHandler()
     }
+    // input-enter
     const onKeyUpInput = (e) => {
         if (e.keyCode === 13) {
             if (!title.trim()) {
-                message('warn', 'Please enter a title')
+                message('warn', 'The title cannot be empty')
                 return setTitle('')
             }
             // 修改title
-            editArticle({ id: editingId, title })
-            setEditingId('')
+            editTitleHandler()
         }
+    }
+    // editTitleHandler
+    const editTitleHandler = async () => {
+        const result = await editArticle({ id: editingId, title })
+        if (result === 'sameName') {
+            message('warn', 'A file with the same name exists', 4000)
+            setTitle('')
+            return inputRef.current.focus()
+        }
+        setEditingId('')
     }
     // --------------------------
 
@@ -147,10 +156,15 @@ function NavbarContent() {
         createNewFile()
     }
 
-    const createNewFile = () => {
-        createFile(newFileTitle)
+    const createNewFile = async () => {
+        const result = await createFile(newFileTitle)
+        if (result === 'sameName') {
+            message('warn', 'A file with the same name exists', 4000)
+            return setNewFileTitle('')
+        }
         setOpened(false)
         setModalType('')
+
     }
     // --------------------------
 

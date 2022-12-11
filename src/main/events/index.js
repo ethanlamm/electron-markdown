@@ -11,6 +11,11 @@ const handleWriteFile = async (event, { filePath, content }) => {
     return data
 }
 
+const handleCreateFile = async (event, { basePath, title }) => {
+    const data = await fileUtils.createFile({ basePath, title })
+    return data
+}
+
 const handleGetDefaultPath = () => {
     const path = app.getAppPath()
     return path
@@ -30,8 +35,11 @@ app.whenReady().then(() => {
     // uploadFile
     ipcMain.handle('uploadFile', handleUploadFile)
 
-    // writeFile/createFile
+    // writeFile
     ipcMain.handle('writeFile', handleWriteFile)
+
+    // createFile
+    ipcMain.handle('createFile', handleCreateFile)
 
     // getDefaultPath
     ipcMain.handle('getDefaultPath', handleGetDefaultPath)
