@@ -9,7 +9,7 @@ import { observer } from 'mobx-react-lite'
 import message from '../hooks/message'
 
 function HeaderContent() {
-    const { defaultPath, getDefaultPath, setDefaultPath, resetDefaultPath } = rootStore
+    const { folderPath, getDefaultPath, setDefaultPath, resetDefaultPath } = rootStore
     const [opened, setOpened] = useState(false)
 
     useEffect(() => {
@@ -48,7 +48,7 @@ function HeaderContent() {
                 >
                     <Flex direction={'column'} gap='md'>
                         <Flex direction={'row'} gap='sm' align={'center'}>
-                            <Input value={defaultPath.setPath || defaultPath.appPath}
+                            <Input value={folderPath.setPath || folderPath.appPath}
                                 sx={{ flexGrow: 1 }} readOnly
                             />
                             <ActionIcon onClick={setDefaultPathHandler}><IconFolder size={30} /></ActionIcon>

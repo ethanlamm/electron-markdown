@@ -16,8 +16,8 @@ const handleGetDefaultPath = () => {
     return path
 }
 
-const handleSetDefaultPath = async () => {
-    const folderPath = await fileUtils.setDefalutPath()
+const handleSetPath = async () => {
+    const folderPath = await fileUtils.setPath()
     return folderPath
 }
 
@@ -31,6 +31,6 @@ app.whenReady().then(() => {
     // getDefaultPath
     ipcMain.handle('getDefaultPath', handleGetDefaultPath)
 
-    // setDefaultPath
-    ipcMain.handle('setDefaultPath', handleSetDefaultPath)
+    // setPath
+    ipcMain.handle('setPath', handleSetPath)
 })

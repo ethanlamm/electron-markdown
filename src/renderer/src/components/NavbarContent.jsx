@@ -32,7 +32,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 function NavbarContent() {
     const { classes } = useStyles()
-    const { fileList, deleteArticle, editArticle, addTabList, addArticle, uploadFile } = rootStore
+    const { fileList, folderPath, deleteArticle, editArticle, addTabList, addArticle, uploadFile, setNewFilePath } = rootStore
     // Search
     const [keyword, setKeyword] = useState('')
     const [navShowList, setNavShowList] = useState([])
@@ -45,8 +45,6 @@ function NavbarContent() {
     const [ModalType, setModalType] = useState('')
     const [newFileTitle, setNewFileTitle] = useState('')
     const [deleteId, setDeleteId] = useState('')
-    // location
-    const [newFilePath, setNewFilePath] = useState('')
 
     // search
     const onInputHandler = (e) => {
@@ -137,7 +135,7 @@ function NavbarContent() {
     const onNewFileEnter = (e) => {
         if (e.keyCode === 13) {
             if (!newFileTitle.trim()) {
-                message('warn', 'Please enter a title')
+                message('warn', 'The title cannot be empty')
                 return setNewFileTitle('')
             }
             createNewFile()
@@ -145,7 +143,7 @@ function NavbarContent() {
     }
     const onNewFileComfirm = () => {
         if (!newFileTitle.trim()) {
-            message('warn', 'Please enter a title')
+            message('warn', 'The title cannot be empty')
             return setNewFileTitle('')
         }
         createNewFile()
@@ -255,12 +253,12 @@ function NavbarContent() {
             {opened && (
                 <Modal
                     centered
-                    size="xs"
+                    size="sm"
                     withCloseButton={false}
                     opened={opened}
                     onClose={() => setOpened(false)}
                     title={ModalType === 'newFile' ?
-                        'New file'
+                        'Create a New file'
                         : 'Confirm the deletion?'}
                 >
                     {(ModalType === 'newFile') ?
@@ -271,17 +269,17 @@ function NavbarContent() {
                                     onKeyUp={onNewFileEnter}
                                     placeholder="Please enter a title for new file" />
                             </Input.Wrapper>
-                            <Input.Wrapper label="Path" required>
-                                <Flex direction={'row'} gap='sm'>
-                                    <Input value={newFilePath} size='xs' sx={{ flexGrow: 1 }} />
-                                    <ActionIcon><IconFolder size={26} /></ActionIcon>
+                            <Input.Wrapper label="Path">
+                                <Flex direction={'row'} gap='xs'>
+                                    <Input value={folderPath.newFilePath || folderPath.setPath || folderPath.appPath} size='xs' sx={{ flexGrow: 1 }} readOnly />
+                                    <ActionIcon onClick={setNewFilePath}><IconFolder size={26} /></ActionIcon>
                                 </Flex>
                             </Input.Wrapper>
                             {/* <Input data-autofocus value={newFileTitle}
                                 onChange={e => setNewFileTitle(e.target.value)}
                                 onKeyUp={onNewFileEnter}
                             /> */}
-                            <Button onClick={onNewFileComfirm}>Create New File</Button>
+                            <Button onClick={onNewFileComfirm}>Create</Button>
                         </Flex>)
                         :
                         (

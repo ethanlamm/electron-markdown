@@ -88,7 +88,7 @@ class RootStore {
   unsavedList = []
 
   // 新建文件的默认路径
-  defaultPath = JSON.parse(localStorage.getItem('defaultPath') || '{}')
+  folderPath = JSON.parse(localStorage.getItem('folderPath') || '{}')
 
   constructor() {
     makeAutoObservable(this)
@@ -97,28 +97,38 @@ class RootStore {
   // 获取默认文件路径
   getDefaultPath = async () => {
     const path = await electron.ipcRenderer.invoke('getDefaultPath')
-    if (this.defaultPath.appPath === `${path}\\files`) return
+    if (this.folderPath.appPath === `${path}\\files`) return
     runInAction(() => {
-      this.defaultPath.appPath = `${path}\\files`
+      this.folderPath.appPath = `${path}\\files`
     })
-    localStorage.setItem('defaultPath', JSON.stringify(this.defaultPath))
+    localStorage.setItem('folderPath', JSON.stringify(this.folderPath))
   }
 
   // 设置默认文件路径
   setDefaultPath = async () => {
-    const path = await electron.ipcRenderer.invoke('setDefaultPath')
+    const path = await electron.ipcRenderer.invoke('setPath')
     runInAction(() => {
-      this.defaultPath.setPath = path
+      this.folderPath.setPath = path
     })
-    localStorage.setItem('defaultPath', JSON.stringify(this.defaultPath))
+    localStorage.setItem('folderPath', JSON.stringify(this.folderPath))
+  }
+
+  // 新建文件路径
+  setNewFilePath = async () => {
+    const path = await electron.ipcRenderer.invoke('setPath')
+    runInAction(() => {
+      this.folderPath.newFilePath = path
+    })
+    localStorage.setItem('folderPath', JSON.stringify(this.folderPath))
   }
 
   // 重置默认文件路径
   resetDefaultPath = () => {
     runInAction(() => {
-      delete this.defaultPath.setPath
+      delete this.folderPath.setPath
+      delete this.folderPath.newFilePath
     })
-    localStorage.setItem('defaultPath', JSON.stringify(this.defaultPath))
+    localStorage.setItem('folderPath', JSON.stringify(this.folderPath))
   }
 
   // 删除文档

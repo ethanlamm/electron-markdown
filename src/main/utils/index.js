@@ -43,7 +43,7 @@ export const fileUtils = {
     /**
      * 打开路径
      */
-    setDefalutPath: async () => {
+    setPath: async () => {
         const { canceled, filePaths } = await dialog.showOpenDialog(openFolderOptions)
         if (!canceled) {
             return filePaths[0]
