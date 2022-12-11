@@ -44,6 +44,7 @@ function HeaderContent() {
                     centered
                     opened={opened}
                     withCloseButton={false}
+                    onClose={() => { }}
                 >
                     <Flex direction={'column'} gap='md'>
                         <Center>Defalut File Path Settings</Center>
