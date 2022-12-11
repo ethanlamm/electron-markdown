@@ -154,14 +154,14 @@ function MainContent() {
             {opened && (
                 <Modal
                     centered
-                    size="xs"
+                    size="sm"
                     withCloseButton={false}
                     opened={opened}
                     onClose={() => setOpened(false)}
                     title="Do you want to save the changes you made to the file?"
                 >
                     <Flex direction={'column'} gap='sm'>
-                        <Text sx={{ fontSize: '13px' }}>Your changes will be lost if you dont't save them</Text>
+                        <Text sx={{ fontSize: '14px' }}>Your changes will be lost if you dont't save them</Text>
                         <Flex direction={'row'} justify={'space-evenly'}>
                             <Button variant='outline' onClick={unsaveHandler}>Don't Save</Button>
                             <Button onClick={saveHandler}>Save</Button>

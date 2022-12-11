@@ -247,12 +247,11 @@ function NavbarContent() {
                     withCloseButton={false}
                     opened={opened}
                     onClose={() => setOpened(false)}
-                    title={ModalType === 'newFile' ?
-                        'Create a New file'
-                        : 'Confirm the deletion?'}
+                    title={ModalType === 'delete' ? 'Are you sure you want to delete the file?' : ''}
                 >
                     {(ModalType === 'newFile') ?
                         (<Flex direction={'column'} justify={'space-between'} gap='md'>
+                            <Center>Create a New file</Center>
                             <Input.Wrapper label="Title" required>
                                 <Input data-autofocus value={newFileTitle} size='xs'
                                     onChange={e => setNewFileTitle(e.target.value)}
@@ -269,13 +268,16 @@ function NavbarContent() {
                         </Flex>)
                         :
                         (
-                            <Flex direction={'row'} justify={'space-evenly'}>
-                                <Button variant='outline' onClick={() => {
-                                    setOpened(false)
-                                    setModalType('')
-                                    setDeleteId('')
-                                }}>Cancel</Button>
-                                <Button onClick={onDeleteConfirm}>Confirm</Button>
+                            <Flex direction={'column'} gap='sm'>
+                                <Text sx={{ fontSize: '14px' }}>Your can restore this file from the Recycle Bin</Text>
+                                <Flex direction={'row'} justify={'space-evenly'}>
+                                    <Button variant='outline' onClick={() => {
+                                        setOpened(false)
+                                        setModalType('')
+                                        setDeleteId('')
+                                    }}>Cancel</Button>
+                                    <Button onClick={onDeleteConfirm}>Delete</Button>
+                                </Flex>
                             </Flex>
                         )
                     }

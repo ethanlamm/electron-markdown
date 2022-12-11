@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Title, ThemeIcon, Flex, ActionIcon, Modal, Input, Button } from '@mantine/core';
+import { Title, ThemeIcon, Flex, ActionIcon, Modal, Input, Button, Center } from '@mantine/core';
 import { IconMarkdown, IconSettings, IconFolder } from '@tabler/icons'
 
 // Mbox
@@ -44,9 +44,9 @@ function HeaderContent() {
                     centered
                     opened={opened}
                     withCloseButton={false}
-                    title='Defalut File Path Settings'
                 >
                     <Flex direction={'column'} gap='md'>
+                        <Center>Defalut File Path Settings</Center>
                         <Flex direction={'row'} gap='sm' align={'center'}>
                             <Input value={folderPath.setPath || folderPath.appPath}
                                 sx={{ flexGrow: 1 }} readOnly
