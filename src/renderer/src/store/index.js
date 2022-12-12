@@ -1,6 +1,4 @@
 import { makeAutoObservable, runInAction } from 'mobx'
-// message
-import message from '../hooks/message'
 
 // uuid
 import { v4 as uuidv4 } from 'uuid';
@@ -146,13 +144,19 @@ class RootStore {
   }
 
   // 删除文档
-  deleteArticle = (id) => {
+  removeDeleteFile = async ({ id, localSystem = false }) => {
     const findIndex = this.fileList.findIndex(item => item.id === id)
     if (findIndex !== -1) {
+      const { filePath } = this.fileList[findIndex]
+      // 从应用中删除
       this.fileList.splice(findIndex, 1)
       this.removeTab(id)
       // 更新fileList
       this.updateFileList()
+      if (localSystem) {
+        // 从本地删除
+        return await electron.ipcRenderer.invoke('deleteFile', filePath)
+      }
     }
   }
 
@@ -179,7 +183,7 @@ class RootStore {
   }
 
   // 编辑文档标题
-  editArticle = async ({ id, title }) => {
+  editFileTitle = async ({ id, title }) => {
     const findIndex = this.fileList.findIndex(item => item.id === id)
     if (findIndex !== -1) {
       const { filePath: oldPath, title: oldTitle } = this.fileList[findIndex]

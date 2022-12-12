@@ -30,7 +30,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 function NavbarContent() {
     const { classes } = useStyles()
-    const { fileList, folderPath, deleteArticle, editArticle, addTabList, uploadFile, createFile, setNewFilePath } = rootStore
+    const { fileList, folderPath, removeDeleteFile, editFileTitle, addTabList, uploadFile, createFile, setNewFilePath } = rootStore
     // Search
     const [keyword, setKeyword] = useState('')
     const [navShowList, setNavShowList] = useState([])
@@ -38,10 +38,10 @@ function NavbarContent() {
     const inputRef = useRef(null)
     const [editingId, setEditingId] = useState('')
     const [title, setTitle] = useState('')
-    // Modal
-    const [opened, setOpened] = useState(false)
+    // remove/deleteFile-Modal
+    const [remove_delete_Modal, setRemoveDeleteModal] = useState(false)
     const [ModalType, setModalType] = useState('')
-    const [deleteId, setDeleteId] = useState('')
+    const [remove_delete_id, setRemoveDeleteId] = useState('')
     // newFile-Modal
     const [newFileModal, setNewFileModal] = useState(false)
     const [newFileTitle, setNewFileTitle] = useState('')
@@ -63,21 +63,41 @@ function NavbarContent() {
 
     // MenuSelect
     const onMenuSelect = ({ type, item }) => {
-        if (type === 'delete') {
-            setModalType('delete')
-            setOpened(true)
-            setDeleteId(item.id)
-        } else if (type === 'edit') {
-            setEditingId(item.id)
-            setTitle(item.title)
+        switch (type) {
+            case 'edit':
+                setEditingId(item.id)
+                setTitle(item.title)
+                break
+            case 'remove':
+                setModalType('remove')
+                setRemoveDeleteModal(true)
+                setRemoveDeleteId(item.id)
+                break
+            case 'delete':
+                setModalType('delete')
+                setRemoveDeleteModal(true)
+                setRemoveDeleteId(item.id)
+                break
+            default:
+                break;
         }
     }
-    // delete article
-    const onDeleteConfirm = () => {
-        deleteArticle(deleteId)
-        setOpened(false)
+    // remove file from App
+    const onRemoveConfirm = () => {
+        removeDeleteFile({ id: remove_delete_id })
+        setRemoveDeleteModal(false)
         setModalType('')
-        setDeleteId('')
+        setRemoveDeleteId('')
+    }
+    // delete file from Local System
+    const onDeleteConfirm = async () => {
+        const result = await removeDeleteFile({ id: remove_delete_id, localSystem: true })
+        if (result === 'success') {
+            message('success', 'successfully Delete from local system')
+            setRemoveDeleteModal(false)
+            setModalType('')
+            setRemoveDeleteId('')
+        }
     }
     // --------------------------
 
@@ -114,7 +134,7 @@ function NavbarContent() {
     }
     // editTitleHandler
     const editTitleHandler = async () => {
-        const result = await editArticle({ id: editingId, title })
+        const result = await editFileTitle({ id: editingId, title })
         if (result === 'sameName') {
             message('warn', 'A file with the same name exists', 4000)
             setTitle('')
@@ -229,10 +249,13 @@ function NavbarContent() {
                                         <Menu.Dropdown>
                                             <Menu.Item onClick={() => {
                                                 onMenuSelect({ type: 'edit', item })
-                                            }}>Edit</Menu.Item>
+                                            }}>Edit Title</Menu.Item>
+                                            <Menu.Item onClick={() => {
+                                                onMenuSelect({ type: 'remove', item })
+                                            }}>Remove From App</Menu.Item>
                                             <Menu.Item onClick={() => {
                                                 onMenuSelect({ type: 'delete', item })
-                                            }}>Delete</Menu.Item>
+                                            }}>Delete From System</Menu.Item>
                                         </Menu.Dropdown>
                                     </Menu>
                                 </Box>
@@ -280,50 +303,43 @@ function NavbarContent() {
                     </Flex>
                 </Modal>
             )}
-            {/* Modal */}
-            {/* {opened && (
+            {/* remove_delete_Modal */}
+            {remove_delete_Modal && (
                 <Modal
                     centered
                     size="sm"
                     withCloseButton={false}
-                    opened={opened}
-                    onClose={() => setOpened(false)}
-                    title={ModalType === 'delete' ? 'Are you sure you want to delete the file?' : ''}
+                    opened={remove_delete_Modal}
+                    onClose={() => setRemoveDeleteModal(false)}
+                    title={ModalType === 'remove' ? 'Are you sure you want to remove the file from application?' : 'Are you sure you want to delete the file from local system?'}
                 >
-                    {(ModalType === 'newFile') ?
-                        (<Flex direction={'column'} justify={'space-between'} gap='md'>
-                            <Center>Create a New file</Center>
-                            <Input.Wrapper label="Title" required>
-                                <Input data-autofocus value={newFileTitle} size='xs'
-                                    onChange={e => setNewFileTitle(e.target.value)}
-                                    onKeyUp={onNewFileEnter}
-                                    placeholder="Type a title..." />
-                            </Input.Wrapper>
-                            <Input.Wrapper label="Path">
-                                <Flex direction={'row'} gap='xs'>
-                                    <Input value={folderPath.newFilePath || folderPath.setPath || folderPath.appPath} size='xs' sx={{ flexGrow: 1 }} readOnly />
-                                    <ActionIcon onClick={setNewFilePath}><IconFolder size={26} /></ActionIcon>
-                                </Flex>
-                            </Input.Wrapper>
-                            <Button onClick={onNewFileComfirm}>Create</Button>
-                        </Flex>)
-                        :
-                        (
-                            <Flex direction={'column'} gap='sm'>
-                                <Text sx={{ fontSize: '14px' }}>Your can restore this file from the Recycle Bin</Text>
-                                <Flex direction={'row'} justify={'space-evenly'}>
-                                    <Button variant='outline' onClick={() => {
-                                        setOpened(false)
-                                        setModalType('')
-                                        setDeleteId('')
-                                    }}>Cancel</Button>
-                                    <Button onClick={onDeleteConfirm}>Delete</Button>
-                                </Flex>
+                    {ModalType === 'remove' ? (
+                        <Flex direction={'column'} gap='sm'>
+                            <Text sx={{ fontSize: '14px' }}>You can re-upload the file from the Local System.</Text>
+                            <Flex direction={'row'} justify={'space-evenly'}>
+                                <Button variant='outline' onClick={() => {
+                                    setRemoveDeleteModal(false)
+                                    setModalType('')
+                                    setRemoveDeleteId('')
+                                }}>Cancel</Button>
+                                <Button onClick={onRemoveConfirm}>Remove</Button>
                             </Flex>
-                        )
-                    }
+                        </Flex>
+                    ) : (
+                        <Flex direction={'column'} gap='sm'>
+                            <Text sx={{ fontSize: '14px' }}>You can restore the file from the Recycle Bin.</Text>
+                            <Flex direction={'row'} justify={'space-evenly'}>
+                                <Button variant='outline' onClick={() => {
+                                    setRemoveDeleteModal(false)
+                                    setModalType('')
+                                    setRemoveDeleteId('')
+                                }}>Cancel</Button>
+                                <Button onClick={onDeleteConfirm}>Delete</Button>
+                            </Flex>
+                        </Flex>
+                    )}
                 </Modal>
-            )} */}
+            )}
         </div >
     )
 }

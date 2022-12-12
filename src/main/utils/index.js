@@ -1,6 +1,6 @@
 import * as fs from 'fs/promises'
 import { existsSync } from 'fs';
-import { app, dialog } from 'electron'
+import { app, dialog, shell } from 'electron'
 
 const defaultPath = app.getAppPath()
 
@@ -114,12 +114,13 @@ export const fileUtils = {
         const isExist = existsSync(filePath)
         if (isExist) {
             try {
-                await fs.rm(filePath)
+                // await fs.unlink(filePath)  //将永久删除文件
+                await shell.trashItem(filePath) // 移动至回收站
                 return 'success'
             } catch (error) {
                 return 'fail'
             }
         }
-    }
+    },
 
 }
