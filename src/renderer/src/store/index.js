@@ -22,64 +22,6 @@ class RootStore {
 
   // 所有文档
   fileList = JSON.parse(localStorage.getItem('fileList') || '[]')
-  // fileList = [
-  //   {
-  //     id: '1',
-  //     title: 'first article',
-  //     content: 'first article',
-  //     unsaved: false,
-  //     latest: new Date().toLocaleString('zh-CN'),
-  //   },
-  //   {
-  //     id: '2',
-  //     title: 'second article',
-  //     content: 'second article',
-  //     unsaved: false,
-  //     latest: new Date().toLocaleString('zh-CN'),
-  //   },
-  //   {
-  //     id: '3',
-  //     title: 'third article',
-  //     content: 'third article',
-  //     unsaved: false,
-  //     latest: new Date().toLocaleString('zh-CN'),
-  //   },
-  //   {
-  //     id: '4',
-  //     title: 'fourth article',
-  //     content: 'fourth article',
-  //     unsaved: false,
-  //     latest: new Date().toLocaleString('zh-CN'),
-  //   },
-  //   {
-  //     id: '5',
-  //     title: 'fifth article',
-  //     content: 'fifth article',
-  //     unsaved: false,
-  //     latest: new Date().toLocaleString('zh-CN'),
-  //   },
-  //   {
-  //     id: '6',
-  //     title: 'sixth article',
-  //     content: 'sixth article',
-  //     unsaved: false,
-  //     latest: new Date().toLocaleString('zh-CN'),
-  //   },
-  //   {
-  //     id: '7',
-  //     title: 'seventh article',
-  //     content: 'seventh article',
-  //     unsaved: false,
-  //     latest: new Date().toLocaleString('zh-CN'),
-  //   },
-  //   {
-  //     id: '8',
-  //     title: 'eigth article',
-  //     content: 'eigth article',
-  //     unsaved: false,
-  //     latest: new Date().toLocaleString('zh-CN'),
-  //   }
-  // ]
   // 要展示的tab文档列表
   tabList = []
   // 正在编辑的文件
@@ -184,22 +126,33 @@ class RootStore {
 
   // 编辑文档标题
   editFileTitle = async ({ id, title }) => {
-    const findIndex = this.fileList.findIndex(item => item.id === id)
-    if (findIndex !== -1) {
-      const { filePath: oldPath, title: oldTitle } = this.fileList[findIndex]
+    const fileListIndex = this.fileList.findIndex(item => item.id === id)
+    const tabListIndex = this.tabList.findIndex(item => item.id === id)
+    if (fileListIndex !== -1) {
+      const { filePath: oldPath, title: oldTitle } = this.fileList[fileListIndex]
       // 与原名重复则不修改
       if (title === oldTitle) return
       const { basePath, newPath } = getNewPath(oldPath, title)
-
+      // 1.修改本地文件
       const result = await electron.ipcRenderer.invoke('renameFile', { oldPath, newPath, basePath, title })
       if (result === 'success') {
+        // 2.修改fileList
         runInAction(() => {
-          this.fileList[findIndex].title = title
-          this.fileList[findIndex].filePath = newPath
-          this.fileList[findIndex].latest = new Date().toLocaleString('zh-CN')
+          this.fileList[fileListIndex].title = title
+          this.fileList[fileListIndex].filePath = newPath
+          this.fileList[fileListIndex].latest = new Date().toLocaleString('zh-CN')
         })
-        // 更新fileList
+        // 3.更新fileList
         this.updateFileList()
+
+        // 4.tabList修改：可能修改标题时，打开了文档，添加至tabList
+        if (tabListIndex !== -1) {
+          runInAction(() => {
+            this.tabList[tabListIndex].title = title
+            this.tabList[tabListIndex].filePath = newPath
+            this.tabList[tabListIndex].latest = new Date().toLocaleString('zh-CN')
+          })
+        }
       }
       return result
     }
@@ -220,6 +173,7 @@ class RootStore {
 
   // 添加tabList
   addTabList = (file) => {
+    // 从tabList中找，看是否已添加，不重复添加
     const findIndex = this.tabList.findIndex(item => item.id === file.id)
     if (findIndex == -1) {
       // 需要深拷贝

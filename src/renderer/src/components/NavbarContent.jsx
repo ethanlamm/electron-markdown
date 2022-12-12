@@ -13,16 +13,20 @@ import message from '../hooks/message'
 // 自定义hover样式
 const useStyles = createStyles((theme, _params, getRef) => ({
     item: {
+        cursor: 'pointer',
         borderRadius: '8px',
         '&:hover': {
-            backgroundColor: theme.colors.gray[1]
+            backgroundColor: 'rgba(34, 139, 230,0.1)'
         }
+    },
+    activeItme: {
+        backgroundColor: 'rgba(34, 139, 230,0.1)'
     },
     menu: {
         borderRadius: '5px',
         '&:hover': {
             cursor: 'pointer',
-            backgroundColor: 'rgba(0,0,0,0.1)',
+            backgroundColor: 'rgba(34, 139, 230,0.2)'
         }
     }
 }))
@@ -30,7 +34,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 function NavbarContent() {
     const { classes } = useStyles()
-    const { fileList, folderPath, removeDeleteFile, editFileTitle, addTabList, uploadFile, createFile, setNewFilePath } = rootStore
+    const { fileList, folderPath, idStatus, removeDeleteFile, editFileTitle, addTabList, uploadFile, createFile, setNewFilePath } = rootStore
     // Search
     const [keyword, setKeyword] = useState('')
     const [navShowList, setNavShowList] = useState([])
@@ -210,7 +214,7 @@ function NavbarContent() {
                     <Stack spacing='8px' sx={{ paddingRight: '5px' }}>
                         {navShowList.map((item) =>
                         (
-                            <Flex key={item.id} justify={'space-between'} align={'center'} py='6px' gap={'2px'} className={classes.item}
+                            <Flex key={item.id} justify={'space-between'} align={'center'} py='6px' gap={'2px'} className={[classes.item, item.id === idStatus.activeId ? classes.activeItme : '']} sx={{ paddingRight: '5px' }}
                                 onClick={(e) => {
                                     e.stopPropagation()
                                     onSelectFile(item)
