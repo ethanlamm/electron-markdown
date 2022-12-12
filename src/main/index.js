@@ -10,7 +10,7 @@ function createWindow() {
     width: 900,
     height: 670,
     show: false,
-    autoHideMenuBar: true,
+    autoHideMenuBar: false,
     ...(process.platform === 'linux'
       ? {
         icon: path.join(__dirname, '../../build/icon.png')
@@ -23,6 +23,7 @@ function createWindow() {
   })
 
   mainWindow.on('ready-to-show', () => {
+    mainWindow.setMenu(null)
     mainWindow.show()
   })
 
