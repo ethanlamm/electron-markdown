@@ -16,7 +16,7 @@ const openFolderOptions = {
     properties: ['openDirectory']
 }
 
-export const fileUtils = {
+const fileUtils = {
     /**
      * 打开文件，并读取文件的内容
      * @returns 读取到的内容
@@ -122,5 +122,6 @@ export const fileUtils = {
             }
         }
     },
-
 }
+
+export default fileUtils

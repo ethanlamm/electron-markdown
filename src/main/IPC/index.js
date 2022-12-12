@@ -1,5 +1,5 @@
 import { app, ipcMain } from 'electron'
-import { fileUtils } from '../utils'
+import fileUtils from '../utils'
 
 const handleUploadFile = async () => {
     const data = await fileUtils.readFile()

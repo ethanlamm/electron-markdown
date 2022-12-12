@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow } from 'electron'
 import * as path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
-import './events'
+import './IPC'
 
 function createWindow() {
   // Create the browser window.
@@ -11,11 +11,12 @@ function createWindow() {
     height: 670,
     show: false,
     autoHideMenuBar: false,
-    ...(process.platform === 'linux'
-      ? {
-        icon: path.join(__dirname, '../../build/icon.png')
-      }
-      : {}),
+    icon: path.join(__dirname, '../../build/favicon.ico'),
+    // ...(process.platform === 'linux'
+    //   ? {
+    //     icon: path.join(__dirname, '../../build/icon.png')
+    //   }
+    //   : {}),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       sandbox: false
