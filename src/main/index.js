@@ -1,5 +1,6 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, protocol } from 'electron'
 import * as path from 'path'
+import url from 'url'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
 import './IPC'
@@ -46,10 +47,24 @@ function createWindow() {
   mainWindow.webContents.openDevTools({ mode: 'bottom' })
 }
 
+// ✨Settings for loading local files(images)
+// https://www.electronjs.org/zh/docs/latest/api/protocol#protocolregisterschemesasprivilegedcustomschemes
+// 1️.Note: This method can only be used before the 'ready' event of the app module gets emitted and can be called only once.
+// 2️.Registering a scheme as standard allows relative and absolute resources to be resolved correctly when served.Otherwise the scheme will behave like the file protocol, but without the ability to resolve relative URLs.
+// 3.Registering a scheme as standard will allow access to files through the FileSystem API. Otherwise the renderer will throw a security error for the scheme.
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'img', privileges: { bypassCSP: true } }
+])
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  // 4.Register the img protocol as file protocol —— local files can be read
+  protocol.registerFileProtocol('img', (request, callback) => {
+    const filePath = url.fileURLToPath('file://' + request.url.slice('img://'.length))
+    callback(filePath)
+  })
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
