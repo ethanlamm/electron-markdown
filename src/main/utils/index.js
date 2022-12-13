@@ -1,7 +1,9 @@
-import * as fs from 'fs/promises'
-import { existsSync } from 'fs';
+// import * as fs from 'fs/promises'
+import { existsSync, promises as fs } from 'fs';
 import { app, dialog, shell } from 'electron'
 
+// console.log('fs', fs)
+// console.log('existsSync', existsSync);
 const defaultPath = app.getAppPath()
 
 const openFileOptions = {
