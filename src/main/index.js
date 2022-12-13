@@ -44,7 +44,8 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'))
   }
 
-  mainWindow.webContents.openDevTools({ mode: 'bottom' })
+  // devtools
+  // mainWindow.webContents.openDevTools({ mode: 'bottom' })
 }
 
 // ✨Settings for loading local files(images)
