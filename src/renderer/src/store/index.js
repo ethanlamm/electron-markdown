@@ -40,8 +40,19 @@ class RootStore {
   // 新建文件的默认路径
   folderPath = JSON.parse(localStorage.getItem('folderPath') || '{}')
 
+  // Navbar show/not show
+  NavbarShow = JSON.parse(localStorage.getItem('Navbar') || 'true')
+
   constructor() {
     makeAutoObservable(this)
+  }
+
+  // updateNavbar
+  updateNavbar = (show) => {
+    runInAction(() => {
+      this.NavbarShow = show
+    })
+    localStorage.setItem('Navbar', JSON.stringify(this.NavbarShow))
   }
 
   // 获取默认文件路径

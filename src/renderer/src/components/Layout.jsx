@@ -5,14 +5,29 @@ import NavbarContent from './NavbarContent'
 import MainContent from './MainContent'
 import HeaderContent from './HeaderContent';
 
+// Mousetrap
+import Mousetrap from 'mousetrap'
+
+// Mbox
+import rootStore from '../store'
+import { observer } from 'mobx-react-lite'
+
 function Layout() {
+    const { NavbarShow, updateNavbar } = rootStore
+
+    Mousetrap.bind('ctrl+n', function () {
+        updateNavbar(!NavbarShow)
+    })
+
     return (
         <AppShell
             zIndex={7}
             padding="md"
-            navbar={<Navbar width={{ base: 220 }} height={'100%'} p="xs" >
-                {<NavbarContent />}
-            </Navbar>}
+            navbar={NavbarShow && (
+                <Navbar width={{ base: 220 }} height={'100%'} p="xs" >
+                    {<NavbarContent />}
+                </Navbar>
+            )}
             header={<Header height={{ base: 50 }} p="xs">
                 {<HeaderContent />}
             </Header>}
@@ -25,4 +40,4 @@ function Layout() {
     )
 }
 
-export default Layout
+export default observer(Layout)

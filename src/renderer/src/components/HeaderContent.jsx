@@ -120,6 +120,14 @@ function HeaderContent() {
                                         <td>Insert Image</td>
                                     </tr>
                                     <tr>
+                                        <td>Local Image Prefix</td>
+                                        <td>img://</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Remote Image Prefix</td>
+                                        <td>http:// https:// etc.</td>
+                                    </tr>
+                                    <tr>
                                         <td><Kbd>Ctrl</Kbd> + <Kbd>Alt</Kbd> + <Kbd>C</Kbd></td>
                                         <td>Code Fragments or Code Blocks</td>
                                     </tr>
@@ -179,6 +187,10 @@ function HeaderContent() {
                                     <tr>
                                         <td><Kbd>F11</Kbd></td>
                                         <td>Toogle Fullscreen</td>
+                                    </tr>
+                                    <tr>
+                                        <td><Kbd>Ctrl</Kbd> + <Kbd>N</Kbd></td>
+                                        <td>Toogle Navbar</td>
                                     </tr>
                                 </tbody>
                             </Table>
