@@ -285,9 +285,13 @@ class RootStore {
   }
 
   // 上传文件
-  uploadFile = ({ filePath, content }) => {
-    const title = getFileName(filePath)
-    this.addArticle({ filePath, title, content })
+  uploadFile = async () => {
+    const data = await electron.ipcRenderer.invoke('uploadFile')
+    if (data) {
+      const { filePath, content } = data
+      const title = getFileName(filePath)
+      this.addArticle({ filePath, title, content })
+    }
   }
 
   // 新建文件
@@ -296,7 +300,7 @@ class RootStore {
     const result = await electron.ipcRenderer.invoke('createFile', { basePath, title })
     if (result === 'success') {
       const filePath = `${basePath}\\${title}.md`
-      this.uploadFile({ filePath, content: '' })
+      this.addArticle({ filePath, title, content: '' })
     }
     return result
   }

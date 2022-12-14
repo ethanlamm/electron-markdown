@@ -193,11 +193,8 @@ function NavbarContent() {
     // --------------------------
 
     // uploadFile
-    const uploadHandler = async () => {
-        const data = await electron.ipcRenderer.invoke('uploadFile')
-        if (data) {
-            uploadFile(data);
-        }
+    const uploadHandler = () => {
+        uploadFile()
     }
 
     return (
