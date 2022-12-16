@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Tabs, Badge, createStyles, Box, Center, Stack, Flex, Modal, Button, Text } from '@mantine/core';
+import { Tabs, Badge, createStyles, Box, Center, Flex, Modal, Button, Text } from '@mantine/core';
 import { IconSquareX, IconMarkdown } from '@tabler/icons'
 
 import RichTextEditorCom from './RichTextEditorCom';
@@ -106,7 +106,7 @@ function MainContent() {
     return (
         <div style={{ height: '100%', width: '100%' }}>
             {tabList.length !== 0 ?
-                (<Stack spacing={'xs'} sx={{ height: '100%', width: '100%' }}>
+                (<Flex direction={'column'} gap={'xs'} sx={{ height: '100%', width: '100%' }}>
                     {/* Tabbar */}
                     <Tabs
                         variant="pills"
@@ -148,7 +148,7 @@ function MainContent() {
                     <Box sx={{ flexGrow: 1 }}>
                         <RichTextEditorCom />
                     </Box>
-                </Stack>)
+                </Flex>)
                 : (<Flex sx={{ height: '100%', width: '100%' }} justify={'center'} align={'center'}><IconMarkdown size={80} /></Flex>)
             }
             {opened && (
