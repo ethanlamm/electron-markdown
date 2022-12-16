@@ -3,6 +3,9 @@ import { makeAutoObservable, runInAction } from 'mobx'
 // uuid
 import { v4 as uuidv4 } from 'uuid';
 
+// img transform tools
+import { saveImgTransform, uploadImgTransform } from '../utils/tools'
+
 // 获取文件名
 const getFileName = (filePath) => {
   if (!filePath) return
@@ -290,7 +293,7 @@ class RootStore {
     if (data) {
       const { filePath, content } = data
       const title = getFileName(filePath)
-      this.addArticle({ filePath, title, content })
+      this.addArticle({ filePath, title, content: uploadImgTransform(content) })
     }
   }
 
@@ -308,7 +311,7 @@ class RootStore {
   // 保存时修改文件内容
   writeFile = async (id) => {
     const { filePath, content } = this.tabList.find(item => item.id === id)
-    const result = await electron.ipcRenderer.invoke('writeFile', { filePath, content })
+    const result = await electron.ipcRenderer.invoke('writeFile', { filePath, content: saveImgTransform(content) })
     if (result === 'success') {
       // 去除unsaved状态
       this.removeUnsaved(id)
