@@ -41,8 +41,24 @@ function RichTextEditorCom() {
         writeFile(idStatus.activeId)
     }
 
+    const onClick = () => {
+        console.dir(editorRef.current);
+        console.dir(editorRef.current.toolBarRightClick);
+        // for-editor内置方法toolBarRightClick：preview 预览 | expand 全屏 | subfield 分栏
+        editorRef.current.toolBarRightClick('expand')
+    }
+
     return (
-        <Editor ref={editorRef} value={value} onChange={onChange} addImg={addImg} onSave={onSave} />
+        <Editor
+            ref={editorRef}
+            value={value}
+            onChange={onChange}
+            addImg={addImg}
+            onSave={onSave}
+            height='100%'
+            language='en'
+            lineNum={false}
+        />
     )
 }
 

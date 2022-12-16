@@ -106,7 +106,7 @@ function MainContent() {
     return (
         <div style={{ height: '100%', width: '100%' }}>
             {tabList.length !== 0 ?
-                (<Stack spacing={'xs'}>
+                (<Stack spacing={'xs'} sx={{ height: '100%', width: '100%' }}>
                     {/* Tabbar */}
                     <Tabs
                         variant="pills"
