@@ -1,56 +1,48 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react'
-import { SimpleMdeReact } from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css";
+import React, { useState, useRef, useEffect } from 'react'
+
+// for-editor
+import Editor from 'for-editor'
 
 // Mbox
 import rootStore from '../store'
 import { observer } from 'mobx-react-lite'
 
+// 图片路径格式：\\ => /
+const getImgPath = (file) => {
+    if (file) {
+        const transform = file.path.split('\\').join('/')
+        return transform
+    }
+}
+
 
 function RichTextEditorCom() {
     const { editingFile, idStatus, setUnsaved, updateTabList, writeFile } = rootStore
     const [value, setValue] = useState('');
+    const editorRef = useRef(null)
 
     useEffect(() => {
         if (idStatus.activeId) {
             setValue(editingFile.content)
         }
-    }, [idStatus.activeId, editingFile.content])
+    }, [idStatus.activeId])
 
+    const addImg = (file) => {
+        editorRef.current?.$img2Url(file.name, getImgPath(file))
+    }
 
-    // editing
-    const onChange = useCallback((value) => {
+    const onChange = (value) => {
         setUnsaved(idStatus.activeId)
         updateTabList(idStatus.activeId, value)
-    }, []);
+        setValue(value)
+    }
 
-
-    // 文档：if you change 'options' on each value change you will lose focus, So, put 'options' as a const outside of the component, or if 'options' shall be partially or fully set by props make sure to useMemo in case of functional/hooks components
-    const options = useMemo(() => {
-        return {
-            autofocus: true,
-            spellChecker: false,
-            minHeight: '385px'
-        }
-    }, []);
-
-    // ctrl-s:修改文件
-    const extraKeys = useMemo(() => {
-        return {
-            'Ctrl-S': function () {
-                writeFile(idStatus.activeId)
-            }
-        };
-    }, [value]);
+    const onSave = () => {
+        writeFile(idStatus.activeId)
+    }
 
     return (
-        <SimpleMdeReact
-            key={idStatus.activeId}
-            value={value}
-            onChange={onChange}
-            options={options}
-            extraKeys={extraKeys}
-        />
+        <Editor ref={editorRef} value={value} onChange={onChange} addImg={addImg} onSave={onSave} />
     )
 }
 

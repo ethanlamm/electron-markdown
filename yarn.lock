@@ -695,24 +695,12 @@
   resolved "https://registry.npmmirror.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@types/codemirror@^5.60.4", "@types/codemirror@~5.60.5":
-  version "5.60.5"
-  resolved "https://registry.npmmirror.com/@types/codemirror/-/codemirror-5.60.5.tgz#5b989a3b4bbe657458cf372c92b6bfda6061a2b7"
-  integrity sha512-TiECZmm8St5YxjFUp64LK0c8WU5bxMDt9YaAek1UqUb9swrSCoJhh92fWu1p3mTEqlHjhB5sY7OFBhWroJXZVg==
-  dependencies:
-    "@types/tern" "*"
-
 "@types/debug@^4.1.6":
   version "4.1.7"
   resolved "https://registry.npmmirror.com/@types/debug/-/debug-4.1.7.tgz#7cc0ea761509124709b8b2d1090d8f6c17aadb82"
   integrity sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==
   dependencies:
     "@types/ms" "*"
-
-"@types/estree@*":
-  version "1.0.0"
-  resolved "https://registry.npmmirror.com/@types/estree/-/estree-1.0.0.tgz#5fb2e536c1ae9bf35366eed879e827fa59ca41c2"
-  integrity sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==
 
 "@types/fs-extra@^9.0.11":
   version "9.0.13"
@@ -728,11 +716,6 @@
   dependencies:
     "@types/minimatch" "*"
     "@types/node" "*"
-
-"@types/marked@^4.0.7":
-  version "4.0.7"
-  resolved "https://registry.npmmirror.com/@types/marked/-/marked-4.0.7.tgz#400a76809fd08c2bbd9e25f3be06ea38c8e0a1d3"
-  integrity sha512-eEAhnz21CwvKVW+YvRvcTuFKNU9CV1qH+opcgVK3pIMI6YZzDm6gc8o2vHjldFk6MGKt5pueSB7IOpvpx5Qekw==
 
 "@types/minimatch@*":
   version "5.1.2"
@@ -771,13 +754,6 @@
   version "7.3.13"
   resolved "https://registry.npmmirror.com/@types/semver/-/semver-7.3.13.tgz#da4bfd73f49bd541d28920ab0e2bf0ee80f71c91"
   integrity sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==
-
-"@types/tern@*":
-  version "0.23.4"
-  resolved "https://registry.npmmirror.com/@types/tern/-/tern-0.23.4.tgz#03926eb13dbeaf3ae0d390caf706b2643a0127fb"
-  integrity sha512-JAUw1iXGO1qaWwEOzxTKJZ/5JxVeON9kvGZ/osgZaJImBnyjyn0cjovPsf6FNLmyGY8Vw9DoXZCMlfMkMwHRWg==
-  dependencies:
-    "@types/estree" "*"
 
 "@types/verror@^1.10.3":
   version "1.10.6"
@@ -1220,18 +1196,6 @@ clsx@1.1.1:
   resolved "https://registry.npmmirror.com/clsx/-/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
   integrity sha512-6/bPho624p3S2pMyvP5kKBPXnI3ufHLObBFCfgx+LkeR5lg2XYy2hqZqUf45ypD8COn2bhgGJSUE+l5dhNBieA==
 
-codemirror-spell-checker@1.1.2:
-  version "1.1.2"
-  resolved "https://registry.npmmirror.com/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz#1c660f9089483ccb5113b9ba9ca19c3f4993371e"
-  integrity sha512-2Tl6n0v+GJRsC9K3MLCdLaMOmvWL0uukajNJseorZJsslaxZyZMgENocPU8R0DyoTAiKsyqiemSOZo7kjGV0LQ==
-  dependencies:
-    typo-js "*"
-
-codemirror@^5.63.1:
-  version "5.65.10"
-  resolved "https://registry.npmmirror.com/codemirror/-/codemirror-5.65.10.tgz#4276a93b8534ce91f14b733ba9a1ac949666eac9"
-  integrity sha512-IXAG5wlhbgcTJ6rZZcmi4+sjWIbJqIGfeg3tNa3yX84Jb3T4huS5qzQAo/cUisc1l3bI47WZodpyf7cYcocDKg==
-
 color-convert@^1.9.0:
   version "1.9.3"
   resolved "https://registry.npmmirror.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
@@ -1465,17 +1429,6 @@ duplexer3@^0.1.4:
   version "0.1.5"
   resolved "https://registry.npmmirror.com/duplexer3/-/duplexer3-0.1.5.tgz#0b5e4d7bad5de8901ea4440624c8e1d20099217e"
   integrity sha512-1A8za6ws41LQgv9HrE/66jyC5yuSjQ3L/KOpFtoBilsAK2iA2wuS5rTt1OCzIvtS2V7nVmedsUU+DGRcjBmOYA==
-
-easymde@^2.18.0:
-  version "2.18.0"
-  resolved "https://registry.npmmirror.com/easymde/-/easymde-2.18.0.tgz#ff1397d07329b1a7b9187d2d0c20766fa16b3b1b"
-  integrity sha512-IxVVUxNWIoXLeqtBU4BLc+eS/ScYhT1Dcb6yF5Wchoj1iXAV+TIIDWx+NCaZhY7RcSHqDPKllbYq7nwGKILnoA==
-  dependencies:
-    "@types/codemirror" "^5.60.4"
-    "@types/marked" "^4.0.7"
-    codemirror "^5.63.1"
-    codemirror-spell-checker "1.1.2"
-    marked "^4.1.0"
 
 ejs@^3.1.7:
   version "3.1.8"
@@ -2017,6 +1970,14 @@ flatted@^3.1.0:
   resolved "https://registry.npmmirror.com/flatted/-/flatted-3.2.7.tgz#609f39207cb614b89d0765b477cb2d437fbf9787"
   integrity sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==
 
+for-editor@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.npmmirror.com/for-editor/-/for-editor-0.3.5.tgz#f2b91026cc920b2d3d631b4db1a491b6f4fa25ff"
+  integrity sha512-yqhn+5do4+i0rgVt87GXnBEJRsC0vJjovQMnT1TsBwz6FUKhECEZdL+QUSGvxc4q71ajGc2zhIpe1YAHFjwegw==
+  dependencies:
+    highlight.js "^9.13.1"
+    marked "^0.6.2"
+
 form-data@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmmirror.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
@@ -2264,6 +2225,11 @@ has@^1.0.3:
   integrity sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==
   dependencies:
     function-bind "^1.1.1"
+
+highlight.js@^9.13.1:
+  version "9.18.5"
+  resolved "https://registry.npmmirror.com/highlight.js/-/highlight.js-9.18.5.tgz#d18a359867f378c138d6819edfc2a8acd5f29825"
+  integrity sha512-a5bFyofd/BHCX52/8i8uJkjr9DYwXIPnM/plwI6W7ezItLGqzt7X2G2nXuYSfsIJdkwwj/g9DG1LkcGJI/dDoA==
 
 hoist-non-react-statics@^3.3.1:
   version "3.3.2"
@@ -2695,10 +2661,10 @@ magic-string@^0.26.7:
   dependencies:
     sourcemap-codec "^1.4.8"
 
-marked@^4.1.0:
-  version "4.2.3"
-  resolved "https://registry.npmmirror.com/marked/-/marked-4.2.3.tgz#bd76a5eb510ff1d8421bc6c3b2f0b93488c15bea"
-  integrity sha512-slWRdJkbTZ+PjkyJnE30Uid64eHwbwa1Q25INCAYfZlK4o6ylagBy/Le9eWntqJFoFT93ikUKMv47GZ4gTwHkw==
+marked@^0.6.2:
+  version "0.6.3"
+  resolved "https://registry.npmmirror.com/marked/-/marked-0.6.3.tgz#79babad78af638ba4d522a9e715cdfdd2429e946"
+  integrity sha512-Fqa7eq+UaxfMriqzYLayfqAE40WN03jf+zHjT18/uXNuzjq3TY0XTbrAoPeqSJrAmPz11VuUA+kBPYOhHt9oOQ==
 
 matcher@^3.0.0:
   version "3.0.0"
@@ -3096,13 +3062,6 @@ react-refresh@^0.14.0:
   version "0.14.0"
   resolved "https://registry.npmmirror.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
-
-react-simplemde-editor@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.npmmirror.com/react-simplemde-editor/-/react-simplemde-editor-5.2.0.tgz#7a4c8b97e4989cb129b45ba140145d71bdc0684e"
-  integrity sha512-GkTg1MlQHVK2Rks++7sjuQr/GVS/xm6y+HchZ4GPBWrhcgLieh4CjK04GTKbsfYorSRYKa0n37rtNSJmOzEDkQ==
-  dependencies:
-    "@types/codemirror" "~5.60.5"
 
 react-textarea-autosize@8.3.4:
   version "8.3.4"
@@ -3575,11 +3534,6 @@ typed-emitter@^2.1.0:
   integrity sha512-g/KzbYKbH5C2vPkaXGu8DJlHrGKHLsM25Zg9WuC9pMGfuvT+X25tZQWo5fK1BjBm8+UrVE9LDCvaY0CQk+fXDA==
   optionalDependencies:
     rxjs "^7.5.2"
-
-typo-js@*:
-  version "1.2.2"
-  resolved "https://registry.npmmirror.com/typo-js/-/typo-js-1.2.2.tgz#340484d81fe518e77c81a5a770162b14492f183b"
-  integrity sha512-C7pYBQK17EjSg8tVNY91KHdUt5Nf6FMJ+c3js076quPmBML57PmNMzAcIq/2kf/hSYtFABNDIYNYlJRl5BJhGw==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"
