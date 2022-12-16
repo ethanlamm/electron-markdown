@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Title, ThemeIcon, Flex, ActionIcon, Modal, Input, Button, Center, Box, Kbd, Table } from '@mantine/core';
-import { IconMarkdown, IconSettings, IconFolder, IconKeyboard } from '@tabler/icons'
+import { Title, ThemeIcon, Flex, ActionIcon, Modal, Input, Button, Center, Anchor, Kbd, Table } from '@mantine/core';
+import { IconMarkdown, IconSettings, IconFolder, IconKeyboard, IconExternalLink } from '@tabler/icons'
 
 // Mbox
 import rootStore from '../store'
@@ -73,129 +73,61 @@ function HeaderContent() {
                     opened={keyboard}
                     withCloseButton={false}
                     onClose={() => setKeyboard(false)}
-                    size='88%'
+                    size='60%'
                 >
                     <Center sx={{ fontWeight: 700 }}>Keyboard Shortcuts</Center>
-                    <Flex direction={'row'} gap='lg'>
-                        <Flex sx={{ width: '50%' }}>
-                            <Table>
-                                <thead><tr><th colSpan={'2'}>
-                                    <Center>Writing</Center>
-                                </th></tr></thead>
-                                <tbody>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>B</Kbd></td>
-                                        <td>Bold</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>I</Kbd></td>
-                                        <td>Italic</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>H</Kbd></td>
-                                        <td>Heading</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>'</Kbd></td>
-                                        <td>Quote</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>L</Kbd></td>
-                                        <td>DeleteLine</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>D</Kbd></td>
-                                        <td>Generic List</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>Alt</Kbd> + <Kbd>L</Kbd></td>
-                                        <td>Numbered List</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>K</Kbd></td>
-                                        <td>Create Link</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>Alt</Kbd> + <Kbd>I</Kbd></td>
-                                        <td>Insert Image</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Local Image Prefix</td>
-                                        <td>img://</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Remote Image Prefix</td>
-                                        <td>http:// https:// etc.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>Alt</Kbd> + <Kbd>C</Kbd></td>
-                                        <td>Code Fragments or Code Blocks</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>[</Kbd>/ <Kbd>]</Kbd></td>
-                                        <td>IndentLess or IndentMore</td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                            {/* <Center>Writing</Center> */}
-                        </Flex>
-                        <Flex sx={{ width: '50%' }} direction={'column'} justify={'space-between'}>
-                            <Table>
-                                <thead><tr><th colSpan={'2'}>
-                                    <Center>General</Center>
-                                </th></tr></thead>
-                                <tbody>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>A</Kbd></td>
-                                        <td>SelectAll</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>S</Kbd></td>
-                                        <td>Save</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>Z</Kbd></td>
-                                        <td>Undo</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>X</Kbd></td>
-                                        <td>Cut</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>C</Kbd></td>
-                                        <td>Copy</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>V</Kbd></td>
-                                        <td>Paste</td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                            <Table>
-                                <thead><tr><th colSpan={'2'}>
-                                    <Center>Manipulation</Center>
-                                </th></tr></thead>
-                                <tbody>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>P</Kbd></td>
-                                        <td>Toggle Preview</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>F9</Kbd></td>
-                                        <td>Toggle Side by Side</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>F11</Kbd></td>
-                                        <td>Toogle Fullscreen</td>
-                                    </tr>
-                                    <tr>
-                                        <td><Kbd>Ctrl</Kbd> + <Kbd>N</Kbd></td>
-                                        <td>Toogle Navbar</td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                        </Flex>
+                    <Flex direction={'column'} sx={{ padding: '0 30px' }} gap='lg'>
+                        <Table>
+                            <thead><tr><th colSpan={'2'}>
+                                <Center>General</Center>
+                            </th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><Kbd>Ctrl</Kbd> + <Kbd>A</Kbd></td>
+                                    <td>SelectAll&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><Kbd>Ctrl</Kbd> + <Kbd>S</Kbd></td>
+                                    <td>Save</td>
+                                </tr>
+                                <tr>
+                                    <td><Kbd>Ctrl</Kbd> + <Kbd>Z</Kbd></td>
+                                    <td>Undo</td>
+                                </tr>
+                                <tr>
+                                    <td><Kbd>Ctrl</Kbd> + <Kbd>X</Kbd></td>
+                                    <td>Cut</td>
+                                </tr>
+                                <tr>
+                                    <td><Kbd>Ctrl</Kbd> + <Kbd>C</Kbd></td>
+                                    <td>Copy</td>
+                                </tr>
+                                <tr>
+                                    <td><Kbd>Ctrl</Kbd> + <Kbd>V</Kbd></td>
+                                    <td>Paste</td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                        <Table>
+                            <thead><tr><th colSpan={'2'}>
+                                <Center>Manipulation</Center>
+                            </th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><Kbd>Ctrl</Kbd> + <Kbd>N</Kbd></td>
+                                    <td>Toogle Navbar</td>
+                                </tr>
+                            </tbody>
+                        </Table>
                     </Flex>
+                    <Center sx={{ marginTop: '20px' }}>
+                        <Anchor href="https://www.markdownguide.org/" target="_blank">
+                            <Flex direction={'row'} align={'center'}>
+                                <IconExternalLink size={'18px'} />
+                                Markdown Guide
+                            </Flex>
+                        </Anchor>
+                    </Center>
                 </Modal>
             )}
         </Flex>
