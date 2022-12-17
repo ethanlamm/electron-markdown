@@ -12,7 +12,7 @@ function createWindow() {
     height: 670,
     show: false,
     autoHideMenuBar: false,
-    icon: path.join(__dirname, '../../build/favicon.ico'),
+    icon: path.join(__dirname, '../../build/markdown.png'),
     // ...(process.platform === 'linux'
     //   ? {
     //     icon: path.join(__dirname, '../../build/icon.png')
