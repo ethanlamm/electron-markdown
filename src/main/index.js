@@ -3,7 +3,7 @@ import * as path from 'path'
 import url from 'url'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
-import './IPC'
+import ipc from './IPC'
 
 function createWindow() {
   // Create the browser window.
@@ -75,6 +75,9 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
+
+  // IPC
+  ipc.register()
 
   createWindow()
 

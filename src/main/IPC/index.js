@@ -36,7 +36,7 @@ const handleDeleteFile = async (event, filePath) => {
     return result
 }
 
-app.whenReady().then(() => {
+const register = () => {
     // uploadFile
     ipcMain.handle('uploadFile', handleUploadFile)
 
@@ -57,4 +57,6 @@ app.whenReady().then(() => {
 
     // deleteFile
     ipcMain.handle('deleteFile', handleDeleteFile)
-})
+}
+
+export default { register }
