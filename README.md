@@ -1,26 +1,41 @@
-# electron-app
+<div align="center">
+	<img height="100px" alt="logo" src="https://alicloud-imgs.oss-cn-guangzhou.aliyuncs.com/img/icon.png"/>
+	<p><em>A markdown editor built with electron</em></p>
+</div>
 
-An Electron application with React
 
-## Recommended IDE Setup
+## Preview
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+<img src="https://alicloud-imgs.oss-cn-guangzhou.aliyuncs.com/img/preview-16735133143741.png" alt="preview" style="zoom: 33%;" />
+
+
+
+## Features
+
+- 📖 Support localization
+
+- 💻 Support edit mode, preview mode, double column mode
+- 🗔 Support full screen
+- 🖼️ Support inserting local images
+- ⌨️ Support keyboard shortcuts
+
+
 
 ## Project Setup
 
-### Install
+**Install**
 
 ```bash
-$ npm install
+$ yarn
 ```
 
-### Development
+**Development**
 
 ```bash
-$ npm run dev
+$ yarn dev
 ```
 
-### Build
+**Build**
 
 ```bash
 # For windows
@@ -32,3 +47,4 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+
