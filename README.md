@@ -35,16 +35,22 @@ $ yarn
 $ yarn dev
 ```
 
+**Preview**
+
+```bash
+$ yarn start
+```
+
 **Build**
 
 ```bash
 # For windows
-$ npm run build:win
+$ yarn build:win
 
 # For macOS
-$ npm run build:mac
+$ yarn build:mac
 
 # For Linux
-$ npm run build:linux
+$ yarn build:linux
 ```
 
