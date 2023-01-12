@@ -12,7 +12,8 @@ function createWindow() {
     height: 670,
     show: false,
     autoHideMenuBar: false,
-    icon: path.join(__dirname, '../../build/markdown.png'),
+    // 图标：自定义则需要替换(名称固定，icon.ico或icon.png)
+    icon: path.join(__dirname, '../../build/icon.ico'),
     // ...(process.platform === 'linux'
     //   ? {
     //     icon: path.join(__dirname, '../../build/icon.png')
